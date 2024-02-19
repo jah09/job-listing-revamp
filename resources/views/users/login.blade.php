@@ -35,8 +35,8 @@
             <form action="" class="mt-10 bg-gray-50 border border-gray-500 rounded  max-w-lg mx-auto p-10">
                 @csrf
                 <div class="flex items-center flex-col">
-                    <h1 class="font-bold text-4xl">REGISTER</h1>
-                    <p>Create an account</p>
+                    <h1 class="font-bold text-4xl">Login</h1>
+                    <p class="text-lg">Login to your account</p>
                 </div>
                 <div class="mb-6 mt-10">
                     <label for="email" class="inline-block text-lg mb-2">Email</label>
@@ -59,17 +59,19 @@
                 </div>
                 {{-- Button codes --}}
                 <div class="mb-6 flex justify-center">
-                    <button type="submit" class="bg-red-800 text-white rounded py-2 px-4 hover:bg-black">
+                    <button type="submit" class="bg-gray-50 font-semibold   rounded py-2 px-4 border border-red-600 text-black hover:bg-red-600 hover:text-white">
                         Sign In
+                        <i class="fa fa-sign-in ml-2" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="">
                     <p class="font-semibold">
-                        Already have an account?
-                        <span class="text-red-500">Login</span>
+                        Don't have an account?
+                        <a href="">
+                            <span class="text-red-500">Register</span></a>
                     </p>
                 </div>
-    
+
             </form>
         </div>
     </div>
