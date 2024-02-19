@@ -16,10 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->int('age');
+            $table->integer('age');
             $table->enum('gender', ['male', 'female']); //['male', 'female', 'non-binary', 'other']); -> if sa UI kay kung upat ang choice, dapat upat pud sa array but if duha ra kay dapat Male and Female rapud
             $table->string('address');
-            $table->int('tel');
+            $table->integer('tel');
             //for referencing
             $table->foreign('user_id')->references('id')->on('user_details')->onDelete('Cascade');
             $table->timestamps();
