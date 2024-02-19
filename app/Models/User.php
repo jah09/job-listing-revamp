@@ -56,4 +56,8 @@ class User extends Authenticatable
     public function user_resumes(){
         return $this->hasMany(UserResume::class);
     }
+
+    public function user_companies(){
+        return $this->hasMany(Company::class);
+    }
 }
