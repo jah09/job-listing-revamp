@@ -10,5 +10,9 @@ class JobCategory extends Model
     protected $fillable=['name'];
     use HasFactory;
 
+   public function job_listing(){
+    return $this->belongsTo(JobListing::class);
+   }
+
    
 }
