@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+
         'email',
         'password',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+
     ];
 
     /**
@@ -42,4 +46,31 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //relationship
+    public function user_detail()
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
+    public function user_resumes()
+    {
+        return $this->hasMany(UserResume::class);
+    }
+
+    public function user_companies()
+    {
+        return $this->hasMany(Company::class);
+    }
+
+    public function user_joblistings()
+    {
+
+        return $this->hasMany(JobListing::class);
+    }
+
+    public function user_applications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
 }
