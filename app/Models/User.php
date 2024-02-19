@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        
+
         'email',
         'password',
         'created_at',
@@ -48,22 +48,29 @@ class User extends Authenticatable
     ];
 
     //relationship
-    public function user_detail(){
+    public function user_detail()
+    {
         return $this->hasOne(UserDetail::class);
-        
     }
 
-    public function user_resumes(){
+    public function user_resumes()
+    {
         return $this->hasMany(UserResume::class);
     }
 
-    public function user_companies(){
+    public function user_companies()
+    {
         return $this->hasMany(Company::class);
     }
 
-    public function user_joblistings(){
-       
-            return $this->hasMany(JobListing::class);
-       
+    public function user_joblistings()
+    {
+
+        return $this->hasMany(JobListing::class);
+    }
+
+    public function user_applications()
+    {
+        return $this->hasMany(JobApplication::class);
     }
 }
