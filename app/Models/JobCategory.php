@@ -10,5 +10,5 @@ class JobCategory extends Model
     protected $fillable=['name'];
     use HasFactory;
 
-    
+   
 }
