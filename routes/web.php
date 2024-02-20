@@ -25,4 +25,5 @@ Route::get('/login', [UserController::class, 'login']);
 //show signup form
 Route::get('/register', [UserController::class, 'register']);
 
-
+//show navbar
+Route::get('/home', [UserController::class, 'showdashboard']);
