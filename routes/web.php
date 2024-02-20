@@ -42,3 +42,6 @@ Route::get('/dashboard/job-applications', [DashboardController::class, 'showJobA
 
 //show the settings
 Route::get('/dashboard/settings', [DashboardController::class, 'showSettings'])->name('dashboard.settings');
+
+//create new user
+Route::post('/users', [UserController::class, 'store']);
