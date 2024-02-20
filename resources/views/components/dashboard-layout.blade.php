@@ -57,7 +57,7 @@ sidebar --}}
     <main>
         @include('partials.dashboard._header')
         <div class="flex">
-            <div class="w-[15%]">
+            <div class="w-[20%]">
                 @include('partials.dashboard._sidenav')
             </div>
             <div class="w-[85%] bg-gray-200 h-screen pt-28 px-16">

@@ -28,7 +28,17 @@ Route::get('/register', [UserController::class, 'register']);
 
 //dashboard
 //show navbar
-Route::get('/dashboard/home', [DashboardController::class, 'showdashboard'])->name('dashboard.home'); //name('dashboard.home') purpose
+Route::get('/dashboard/home', [DashboardController::class, 'showDashboard'])->name('dashboard.home'); //name('dashboard.home') purpose
 
 //show the company page
-Route::get('/dashboard/company', [DashboardController::class, 'showcompany'])->name('dashboard.company');
+Route::get('/dashboard/company', [DashboardController::class, 'showCompany'])->name('dashboard.company');
+
+//show the job listing
+Route::get('/dashboard/job-listings', [DashboardController::class, 'showJobListing'])->name('dashboard.joblistings');
+
+
+//show the job application
+Route::get('/dashboard/job-applications', [DashboardController::class, 'showJobApplication'])->name('dashboard.jobapplications');
+
+//show the settings
+Route::get('/dashboard/settings', [DashboardController::class, 'showSettings'])->name('dashboard.settings');
