@@ -5,7 +5,7 @@
 
         </div>
         <div class=" ">
-            <form action="" class="mt-10 bg-gray-50 border border-red-500 rounded  max-w-lg mx-auto p-10">
+            <form action="" class="mt-10 bg-gray-50 border border-gray-500 rounded  max-w-lg mx-auto p-10">
                 @csrf
                 <div class="flex items-center flex-col">
                     <h1 class="font-bold text-4xl">REGISTER</h1>

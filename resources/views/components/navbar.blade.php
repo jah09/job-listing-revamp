@@ -1,8 +1,6 @@
-{{-- <section>
-    <nav class="bg-red-900">
-      <h1>This is nav bar</h1>
-    </nav>
-    <main>
-        {{$slot}}
-    </main>
-</section> --}}
+<nav class="bg-red-900">
+  <h1 class="text-red-900">adawdwad</h1>
+</nav>
+<main>
+  {{ $slot }}
+</main>
