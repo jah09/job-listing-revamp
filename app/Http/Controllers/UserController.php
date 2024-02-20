@@ -56,5 +56,16 @@ class UserController extends Controller
         }
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
+
+    //logout the user
+    public function logout(Request $request){
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+       // return redirect('/login')->with('message', 'You have been logged out');
+       return redirect('/login');
+    }
    
 }
+

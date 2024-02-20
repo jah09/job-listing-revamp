@@ -40,7 +40,7 @@
                 <div class="">
                     <p class="font-semibold">
                         Already have an account?
-                        <a href="">
+                        <a href="login">
                             <span class="text-red-500">Login</span>
                         </a>
                     </p>

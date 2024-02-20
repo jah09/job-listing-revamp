@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 //show login form
-Route::get('/login', [UserController::class, 'login']);
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 
 //show signup form
 Route::get('/register', [UserController::class, 'register']);
@@ -47,3 +47,6 @@ Route::post('/users', [UserController::class, 'store']);
 
 //Log In User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+
+//logout the user logout
+Route::post('/logout',[UserController::class, 'logout']);

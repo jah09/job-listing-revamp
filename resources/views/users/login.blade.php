@@ -16,7 +16,7 @@
                     <input value="{{ old('email') }}" type="email" class="border border-gray-200 rounded p-2 w-full"
                         name="email" />
                     @error('email')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-sm font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -27,7 +27,7 @@
                     <input value="{{ old('password') }}" type="password"
                         class="border border-gray-200 rounded p-2 w-full" name="password" />
                     @error('password')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-sm font-semibold mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 {{-- Button codes --}}
