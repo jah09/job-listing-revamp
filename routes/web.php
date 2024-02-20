@@ -22,13 +22,12 @@ Route::get('/', function () {
 //show login form
 Route::get('/login', [UserController::class, 'login']);
 
-
 //show signup form
 Route::get('/register', [UserController::class, 'register']);
 
 //dashboard
 //show navbar
-Route::get('/dashboard/home', [DashboardController::class, 'showDashboard'])->name('dashboard.home'); //name('dashboard.home') purpose
+Route::get('/dashboard/home', [DashboardController::class, 'showDashboard'])->name('dashboard.home')->middleware('auth'); //name('dashboard.home') purpose
 
 //show the company page
 Route::get('/dashboard/company', [DashboardController::class, 'showCompany'])->name('dashboard.company');
@@ -45,3 +44,6 @@ Route::get('/dashboard/settings', [DashboardController::class, 'showSettings'])-
 
 //create new user
 Route::post('/users', [UserController::class, 'store']);
+
+//Log In User
+Route::post('/users/authenticate', [UserController::class, 'authenticate']);

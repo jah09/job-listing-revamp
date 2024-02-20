@@ -5,7 +5,7 @@
 
         </div>
         <div class=" ">
-            <form action="" class="mt-10 bg-gray-50 border border-gray-500 rounded  max-w-lg mx-auto p-10">
+            <form action="/users/authenticate" method="POST" class="mt-10 bg-gray-50 border border-gray-500 rounded  max-w-lg mx-auto p-10">
                 @csrf
                 <div class="flex items-center flex-col">
                     <h1 class="font-bold text-4xl">Login</h1>
@@ -41,7 +41,7 @@
                 <div class="">
                     <p class="font-semibold">
                         Don't have an account?
-                        <a href="">
+                        <a href="/register">
                             <span class="text-red-500">Register</span></a>
                     </p>
                 </div>
