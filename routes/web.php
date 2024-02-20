@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -25,5 +26,9 @@ Route::get('/login', [UserController::class, 'login']);
 //show signup form
 Route::get('/register', [UserController::class, 'register']);
 
+//dashboard
 //show navbar
-Route::get('/home', [UserController::class, 'showdashboard']);
+Route::get('/dashboard/home', [DashboardController::class, 'showdashboard'])->name('dashboard.home'); //name('dashboard.home') purpose
+
+//show the company page
+Route::get('/dashboard/company', [DashboardController::class, 'showcompany'])->name('dashboard.company');
