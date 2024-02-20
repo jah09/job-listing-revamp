@@ -19,10 +19,6 @@ class UserController extends Controller
         return  view('users.register');
     }
       
-    //show the dashboard
-    public function showdashboard(){
-        return  view('users.home');
-    }
-
+  
    
 }
