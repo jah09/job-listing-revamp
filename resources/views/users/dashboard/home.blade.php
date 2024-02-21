@@ -89,6 +89,6 @@
 
 
         </div>
-        <div class="bg-blue-900">1</div>
+        <div class="rounded-md p-4 shadow-md p2">Content is uploading...</div>
     </div>
 </x-dashboard-layout>
