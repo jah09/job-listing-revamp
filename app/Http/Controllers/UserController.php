@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     //return the view of login-form
-
     public function login(){
         return  view('users.login');
     }
@@ -21,7 +20,7 @@ class UserController extends Controller
         return  view('users.register');
     }
 
-    //store the data to database
+    //store the user data to database or register
     public function store(Request $request){
         //validate
         $formFields = $request->validate([
@@ -34,7 +33,10 @@ class UserController extends Controller
         //Create User
         $user = User::create($formFields);
 
-        auth()->login($user);
+        /*It uses Laravel's authentication system, which provides a global helper function auth() to access authentication services.
+        The login method is called on the authentication service, and it takes the user object as an argument. 
+        */
+        auth()->login($user); 
 
       // return redirect('/login')->with('message', 'Account successfully created.');
       return redirect('/login');
