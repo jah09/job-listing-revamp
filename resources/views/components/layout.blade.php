@@ -31,8 +31,9 @@
 
 
 
-<body>
+<body >
     <nav class="flex justify-between items-center mb-4 bg-red-900">
+        
         {{-- <a href="/"><img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo" /></a>
         <ul class="flex space-x-6 mr-6 text-lg">
             @auth
@@ -64,9 +65,10 @@
             @endauth
         </ul> --}}
     </nav>
-    <main class="p-2">
+    <main class="p-2 ">
         {{ $slot }}
     </main>
+   
 </body>
 
 
