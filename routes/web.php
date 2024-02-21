@@ -51,6 +51,9 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 //logout the user logout
 Route::post('/logout',[UserController::class, 'logout']);
 
+//update the user
+Route::post('/users/edit',[UserController::class,'update_settings']);
+
 //dashboard route but ge group
 Route::group([
     'as'        => 'dashboard', // Route group name
