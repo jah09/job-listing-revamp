@@ -16,7 +16,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('users.login'); //landing is the main default
+    return view('landing'); //landing is the main default users.login
 });
 
 //show login form
