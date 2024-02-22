@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\JobCategory;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class DashboardController extends Controller
 {
@@ -53,19 +55,28 @@ class DashboardController extends Controller
     //show the company page
     public function showCompany(Request $request)
     {
-        $user=$request->user();
-        $user_companies = $user->user_companies()->latest()->limit(5)->get();// pangitaon si user_companies nga method ni user_companies.
+        $user = $request->user();
+        $user_companies = $user->user_companies()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
 
-        return  view('users.dashboard.company',[
-            'user_companies'=>$user_companies
+        return  view('users.dashboard.company', [
+            'user_companies' => $user_companies
         ]);
     }
 
     //show the job listings
-    public function showJobListing()
-
+    public function showJobListing(Request $request)
     {
-        return  view('users.dashboard.joblistings');
+        // $user = $request->user();
+        // $user_companies = $user->user_companies()->empty();
+        // dd($user_companies);
+        // if ($user_companies) {
+        // } else {
+        // }
+
+        $user = $request->user();
+        $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
+
+        return  view('users.dashboard.joblistings', ['user_joblisting' => $user_joblisting]);
     }
 
     //show job applications
@@ -118,37 +129,47 @@ class DashboardController extends Controller
         if ($request->hasFile('logo_url')) {
             $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
         }
-        // $uploadedFile = $request->file('logo_url');
-        // if ($request->hasFile('logo_url')) {
-        //     $uploadedFile = $request->file('logo_url');
-        //     if ($uploadedFile !== null) {
-        //         if ($uploadedFile->isValid()) {
-        //             $formFields['logo_url'] = $uploadedFile->store('logos', 'public');
-        //         } else {
-        //             // Log the error
-        //             Log::error('File upload error: ' . $uploadedFile->getErrorMessage());
-        //             // Handle other responses or actions as needed
-        //         }
-        //     } else {
-        //         // Log the error
-        //         Log::error('File upload error: Uploaded file is null');
-        //         // Handle other responses or actions as needed
-        //     }
-        // } else {
-        //     // Log the error
-        //     Log::error('File upload error: No file uploaded');
-        //     // Handle other responses or actions as needed
-        // }
+
 
         // Company::create($formFields);
         $user->user_companies()->create($formFields);
 
         // return redirect('dashboard.home')->with('message', 'Listing created successfully');
-        return redirect('/dashboard/company');
+        return redirect('/dashboard/company')->with('success','Company created successfully');
     }
 
     //show the create post form
-    public function showCreateJobListingForm(){
-        return view('users.dashboard.createjobposting');
+    public function showCreateJobListingForm()
+    {
+
+        $companies = Company::all();
+        $categories = JobCategory::all();
+        if ($companies->count() != 0) {
+            return view('users.dashboard.createjobposting', [
+                'companies' => $companies,
+                'categories' => $categories
+            ]);
+        } else {
+            return redirect(route('dashboard.joblistings'))->with('error', 'Posting a job requires atleast one company');
+        }
+    }
+
+    //create a job posting 
+    public function create_jobposting(Request $request)
+    {
+        $user = $request->user();
+
+        $formFields = $request->validate([
+            'company_id' => ['required'],
+            'employment_type' => ['required'],
+            'min_monthly_salary' => ['required'],
+            'max_monthly_salary' => ['required'],
+            'job_title' => ['required'],
+            'job_category_id' => ['required'],
+            'description' => ['required'],
+
+        ]);
+        $user->user_joblistings()->create($formFields);
+        return redirect('/dashboard/job-listings');
     }
 }

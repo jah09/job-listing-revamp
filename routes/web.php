@@ -57,7 +57,8 @@ Route::post('/users/edit',[UserController::class,'update_settings']);
 //create new company
 Route::post('/createcompany',[DashboardController::class,'create_company']);
 
-
+//create job posting
+Route::post('/createjoblisting',[DashboardController::class,'create_jobposting']);
 //dashboard route but ge group
 Route::group([
     'as'        => 'dashboard', // Route group name
