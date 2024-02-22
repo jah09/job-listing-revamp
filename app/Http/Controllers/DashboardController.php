@@ -146,4 +146,9 @@ class DashboardController extends Controller
         // return redirect('dashboard.home')->with('message', 'Listing created successfully');
         return redirect('/dashboard/company');
     }
+
+    //show the create post form
+    public function showCreateJobListingForm(){
+        return view('users.dashboard.createjobposting');
+    }
 }

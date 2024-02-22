@@ -56,6 +56,8 @@ Route::post('/users/edit',[UserController::class,'update_settings']);
 
 //create new company
 Route::post('/createcompany',[DashboardController::class,'create_company']);
+
+
 //dashboard route but ge group
 Route::group([
     'as'        => 'dashboard', // Route group name
@@ -68,7 +70,7 @@ Route::group([
     Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
     Route::get('settings', [DashboardController::class, 'showSettings'])->name('.settings');
     Route::get('company/create',[DashboardController::class,'showCreateCompanyForm'])->name('.createCompany'); 
-
+    Route::get('/job-listings/job-post',[DashboardController::class,'showCreateJobListingForm'])->name('.createJobListing');
 
 }
 
