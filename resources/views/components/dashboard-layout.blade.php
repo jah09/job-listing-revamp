@@ -70,6 +70,8 @@ sidebar --}}
             </div>
         </div>
     </main>
+
+    <x-flash-message/>
 </body>
 
 
