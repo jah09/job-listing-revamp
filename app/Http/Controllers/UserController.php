@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -10,19 +11,21 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     //return the view of login-form
-
-    public function login(){
+    public function login()
+    {
         return  view('users.login');
     }
-      
-    
+
+
     //return the register form
-    public function register(){
+    public function register()
+    {
         return  view('users.register');
     }
 
-    //store the data to database
-    public function store(Request $request){
+    //store the user data to database or register
+    public function store(Request $request)
+    {
         //validate
         $formFields = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
@@ -34,15 +37,19 @@ class UserController extends Controller
         //Create User
         $user = User::create($formFields);
 
+        /*It uses Laravel's authentication system, which provides a global helper function auth() to access authentication services.
+        The login method is called on the authentication service, and it takes the user object as an argument. 
+        */
         auth()->login($user);
 
-      // return redirect('/login')->with('message', 'Account successfully created.');
-      return redirect('/login');
+        // return redirect('/login')->with('message', 'Account successfully created.');
+        return redirect('/login');
     }
-      
-  
+
+
     //login the user
-    public function authenticate(Request $request){
+    public function authenticate(Request $request)
+    {
         //validate
         $formfields = $request->validate([
             'email' => ['required', 'email'],
@@ -58,14 +65,36 @@ class UserController extends Controller
     }
 
     //logout the user
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-       // return redirect('/login')->with('message', 'You have been logged out');
-       return redirect('/login');
+        // return redirect('/login')->with('message', 'You have been logged out');
+        return redirect('/login');
     }
-   
-}
+    //update the user settings
+    public function update_settings(Request $request)
+    {
+       
+        //if you pass middleware('auth') on route you can access user data in request
+        $user = $request->user(); //this will return authenticated user data
 
+        $formFields = $request->validate([
+            'first_name' => ['required', 'min:3'],
+            'last_name' => ['required', 'min:3'],
+            'age' => ['required', ],
+            'gender' => ['required', 'min:3'],
+            'address' => ['required', 'min:3'],
+            'tel' => ['required', 'min:3'],
+        ]);
+     
+        $user->user_detail()->updateOrCreate(
+            ['user_id' => $user->id], // Search criteria
+            $formFields // Values to update or create
+        );
+        return redirect(route('dashboard.settings'));
+    
+    }
+}

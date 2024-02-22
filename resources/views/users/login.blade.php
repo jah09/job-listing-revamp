@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout >
     <x-card>
         <div class="justify-center flex ">
             <img src="{{ asset('images/logo.png') }}" alt="logo" class="w-24">

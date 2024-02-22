@@ -1,4 +1,4 @@
-<div class="h-full w-full border-r-2 border-gray-200 bg-red-900">
+<div class="h-full w-full border-r-2 border-gray-200 bg-red-900 pt-20">
     {{-- <div class="mx-auto bg-red-900 w-96 px-4 pt-6">
         <ul class="bg-hipe-yellow p-2">
             <li class="text-md font-semibold"><i class="ps-2 fa-solid fa-house px-2"></i>Home</li>

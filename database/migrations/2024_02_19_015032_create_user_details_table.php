@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('age');
             $table->enum('gender', ['male', 'female']); //['male', 'female', 'non-binary', 'other']); -> if sa UI kay kung upat ang choice, dapat upat pud sa array but if duha ra kay dapat Male and Female rapud
             $table->string('address');
-            $table->integer('tel');
+            $table->integer('tel')->nullable();
             //for referencing
             $table->foreign('user_id')->references('id')->on('user_details')->onDelete('Cascade');
             $table->timestamps();

@@ -25,22 +25,22 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 //show signup form
 Route::get('/register', [UserController::class, 'register']);
 
-//dashboard
-//show navbar
-Route::get('/dashboard/home', [DashboardController::class, 'showDashboard'])->name('dashboard.home')->middleware('auth'); //name('dashboard.home') purpose
+//dashboard routes but it ge tagsa2
+
+// Route::get('/dashboard/home', [DashboardController::class, 'showDashboard'])->name('dashboard.home')->middleware('auth'); 
 
 //show the company page
-Route::get('/dashboard/company', [DashboardController::class, 'showCompany'])->name('dashboard.company');
+// Route::get('/dashboard/company', [DashboardController::class, 'showCompany'])->name('dashboard.company');
 
 //show the job listing
-Route::get('/dashboard/job-listings', [DashboardController::class, 'showJobListing'])->name('dashboard.joblistings');
+// Route::get('/dashboard/job-listings', [DashboardController::class, 'showJobListing'])->name('dashboard.joblistings');
 
 
 //show the job application
-Route::get('/dashboard/job-applications', [DashboardController::class, 'showJobApplication'])->name('dashboard.jobapplications');
+// Route::get('/dashboard/job-applications', [DashboardController::class, 'showJobApplication'])->name('dashboard.jobapplications');
 
 //show the settings
-Route::get('/dashboard/settings', [DashboardController::class, 'showSettings'])->name('dashboard.settings');
+// Route::get('/dashboard/settings', [DashboardController::class, 'showSettings'])->name('dashboard.settings');
 
 //create new user
 Route::post('/users', [UserController::class, 'store']);
@@ -50,3 +50,24 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 //logout the user logout
 Route::post('/logout',[UserController::class, 'logout']);
+
+//update the user
+Route::post('/users/edit',[UserController::class,'update_settings']);
+
+//dashboard route but ge group
+Route::group([
+    'as'        => 'dashboard', // Route group name
+    'prefix'    => 'dashboard', // Prefix for all routes within the group
+    'middleware' => 'auth',  // Middleware applied to all routes within the group
+],function(){ 
+    Route::get('home', [DashboardController::class, 'showDashboard'])->name('.home');
+    Route::get('company', [DashboardController::class, 'showCompany'])->name('.company');
+    Route::get('job-listings', [DashboardController::class, 'showJobListing'])->name('.joblistings');
+    Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
+    Route::get('settings', [DashboardController::class, 'showSettings'])->name('.settings');
+
+
+}
+
+
+);

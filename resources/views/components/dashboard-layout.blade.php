@@ -55,13 +55,16 @@ sidebar --}}
 
 <body>
     <main>
-        @include('partials.dashboard._header')
-        <div class="flex">
-            <div class="w-[20%]">
+        <div class="z-40 fixed top-0 w-full">
+            @include('partials.dashboard._header')
+        </div>
+
+        <div class="flex justify-end">
+            <div class="w-[20%] fixed left-0 top-0 h-full">
                 @include('partials.dashboard._sidenav')
             </div>
-            <div class="w-[85%] bg-gray-200 h-screen pt-6 px-6">
-                {{ $slot }}
+            <div class="w-[80%] bg-gray-200 pb-12 pt-28 px-8 min-h-screen">
+                {{$slot}}
             </div>
         </div>
     </main>
