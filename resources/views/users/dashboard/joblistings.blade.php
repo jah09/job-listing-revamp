@@ -12,43 +12,14 @@
             <thead class="bg-gray-100">
                 <tr>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Listing</th>
-                    <th scope="col" class="px-6 py-4 font-medium text-gray-900  w-48">Job Category</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900  w-64">Job Category</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900 w-56">Applicants</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900 ">Employee Type</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-                {{-- @foreach ($user_companies as $item)
-                <tr class="hover:bg-gray-50">
-                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
-                        <div class="relative h-16 w-16">
-                            <img class="h-full w-full rounded-lg object-contain bg-gray-200 object-fill"
-                                src="{{ asset('storage/' . $item->logo_url) }}" alt="" />
-                        </div>
-                        <div class="text-sm">
-                            <div class="font-medium text-gray-700">{{$item->name}}</div>
-                            <div class="text-gray-400">{{$item->email}}</div>
-                        </div>
-                    </th>
-                    <td class="px-6 py-4">
-                        <a href=" {{$item->website}} " target="_blank">
-                        <span
-                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                            
-                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                            {{$item->website}}
-                        </span>
-                    </a>
-                    </td>
-                    <td class="px-6 py-4">{{$item->address}}, {{$item->state}}, {{$item->postal}}
-                        </td>
-                    <td class="px-6 py-4">
-                        {{$item->tel}}
-                    </td>
-                </tr>
-                @endforeach --}}
-               
+              
               @foreach ($user_joblisting as $item)
                   
             
