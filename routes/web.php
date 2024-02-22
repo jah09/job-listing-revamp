@@ -16,7 +16,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('landing');
+    return view('users.login'); //landing is the main default
 });
 
 //show login form
@@ -54,6 +54,8 @@ Route::post('/logout',[UserController::class, 'logout']);
 //update the user
 Route::post('/users/edit',[UserController::class,'update_settings']);
 
+//create new company
+Route::post('/createcompany',[DashboardController::class,'create_company']);
 //dashboard route but ge group
 Route::group([
     'as'        => 'dashboard', // Route group name
@@ -65,6 +67,7 @@ Route::group([
     Route::get('job-listings', [DashboardController::class, 'showJobListing'])->name('.joblistings');
     Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
     Route::get('settings', [DashboardController::class, 'showSettings'])->name('.settings');
+    Route::get('company/create',[DashboardController::class,'showCreateCompanyForm'])->name('.createCompany'); 
 
 
 }

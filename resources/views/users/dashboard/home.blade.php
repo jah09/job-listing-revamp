@@ -52,17 +52,20 @@
             <div class="mt">
                 <ul>
                     @if ($user_companies->count() > 0)
-                        <li class="flex items-center p-2 "> <img src="{{ asset('images/logo.png') }}" alt="logo"
-                                class="w-8 rounded-full">
-                            <span class="mx-2">
-                                <h4>HIPE 1</h4>
-                            </span>
+                        @foreach ($user_companies as $item)
+                            <li class="flex items-center p-2 ">
+                                <img src="{{ asset('storage/' . $item->logo_url) }}" alt="logo"
+                                    class="w-10 h-10 rounded-full">
+                                <span class="mx-2">
+                                    <h4 class="font-semibold">{{ $item->name }}</h4>
+                                </span>
 
 
-                        </li>
-                        <div class="mx-auto ">
-                            <hr class="border-gray-400 border-1/2 w-[95%]  mx-2">
-                        </div>
+                            </li>
+                            <div class="mx-auto ">
+                                <hr class="border-gray-400 border-1/2 w-[95%]  mx-2">
+                            </div>
+                        @endforeach
                     @else
                         <h5>No companies yet</h5>
                     @endif
