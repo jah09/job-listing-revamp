@@ -60,7 +60,7 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             ///dashboard/home
-            return redirect('/')->with('message', 'You are now logged in');
+            return redirect('/dashboard/home')->with('message', 'You are now logged in');
         }
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
