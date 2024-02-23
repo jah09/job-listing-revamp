@@ -8,10 +8,10 @@
                 <h2 class="text-white font-bold text-lg">YOURSURNAME</h2>
                 <div>
                     <h1 class="text-8xl font-bold text-[#ffa903]">JOB<span class="text-[#229fe7]">LISTING</span></h1>
-                    <p class="flex justify-end">123</p>
+                    <p class="flex justify-end text-lg text-white">Project</p>
                 </div>
             </div>
-            <div class="bg-yellow-900 mx-4"><p>image here</p></div>
+            <div class=" mx-4"><p>Image is uploading..</p></div>
         </div>
     </div>
    
