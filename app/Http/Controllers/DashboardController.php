@@ -75,14 +75,17 @@ class DashboardController extends Controller
 
         $user = $request->user();
         $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
-
+          
         return  view('users.dashboard.joblistings', ['user_joblisting' => $user_joblisting]);
     }
 
     //show job applications
-    public function showJobApplication()
+    public function showJobApplication(Request $request)
     {
-        return  view('users.dashboard.jobapplication');
+        $user = $request->user();
+        $userJobApplications=$user->user_applications()->latest()->get();
+       // dd($userJobApplications);
+        return  view('users.dashboard.jobapplication',['userJobApplications'=>$userJobApplications]);
     }
 
 
