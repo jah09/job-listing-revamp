@@ -57,7 +57,7 @@
                 </a>
             </div>
         </div>
-        <div class="grid gap-10 grid-cols-3 w-full">
+        <div class="grid gap-10 grid-cols-3 w-full p-2">
             @if ($user_resume->isEmpty())
                 <div class="">
                     <h1 class="text-md font-semibold">No resume to show.. Please upload your resume</h1>
@@ -68,7 +68,7 @@
                     $fileUrl = $item->resume_url;
                     $extension = pathinfo($fileUrl, PATHINFO_EXTENSION);
                     ?>
-                    <div class="bg-white rounded-3xl p-4 w-[110%]">
+                    <div class="bg-white rounded-3xl p-4 w-[110%] shadow-md">
                         <div class="flex-none lg:flex">
                             <div class="bg-gray-200 h-20  rounded-lg">
                                
