@@ -32,22 +32,22 @@
 
 
 <body>
-    <nav class=" items-center  bg-[#023047]">
-        <container class="bg-[#023047] mx-auto flex justify-between w-[90%] ">
+    <nav class=" items-center bg-[#023047] w-full">
+        <container class="bg-[#023047] mx-auto flex justify-between w-[90%]  ">
             <div class="mt-2"> <img src="{{ asset('images/img_logo.svg') }}" alt="logo" class="w-24  p-2"></div>
             <div>
                 <ul class="flex py-4 mx-4   ">
                     <a href="">
-                        <li class="p-2 text-white text-md font-semibold">Home</li>
+                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">Home</li>
                     </a>
                     <a href="">
-                        <li class="p-2 text-white text-md font-semibold">About</li>
+                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">About</li>
                     </a>
                     <a href="">
-                        <li class="p-2 text-white text-md font-semibold">Contact</li>
+                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">Contact</li>
                     </a>
                     <a href="/login">
-                        <li class="p-2 text-white text-md font-semibold">Login</li>
+                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">Login</li>
                     </a>
 
 
