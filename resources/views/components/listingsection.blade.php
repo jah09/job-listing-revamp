@@ -14,7 +14,7 @@
                     <h1 class="text-2xl">Data Analyst </h1>
                     <p class="font-semibold">Koelpin Ltd</p>
                     <div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p></div>
+                        <p>Develop a system.</p></div>
                     <div class="mt-10 text-lg">
                         <h1 class="font-semibold">₱ 60,000 - ₱ 140,000 </h1>
                     </div>
