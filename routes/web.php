@@ -76,6 +76,8 @@ Route::group([
     Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
 
     Route::get('settings', [DashboardController::class, 'showSettings'])->name('.settings');//show the UI of profile settings
+
+    Route::get('my-resume',[DashboardController::class,'showResume'])->name('.resume');
     
   
 }

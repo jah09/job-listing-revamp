@@ -172,4 +172,8 @@ class DashboardController extends Controller
         $user->user_joblistings()->create($formFields);
         return redirect('/dashboard/job-listings');
     }
+    //show the resume page
+    public function showResume(){
+        return view('users.dashboard.resume');
+    }
 }

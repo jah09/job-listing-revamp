@@ -40,6 +40,13 @@
                         <span class="ml-3 flex-1 whitespace-nowrap">Job Applications</span>
                     </a>
                 </li>
+                <li
+                class="{{ Request::is('dashboard/my-resume') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
+                <a href="{{ route('dashboard.resume') }}" class="">
+                    <i class="ps-2.5 fa-regular fa-file"></i>
+                    <span class="ml-3 flex-1 whitespace-nowrap">My Resume</span>
+                </a>
+            </li>
                 {{-- <li class="hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white"> 
                     <a href="#" class="">
                         <i class="ps-2 fa-solid fa-file-import"></i>
