@@ -173,7 +173,29 @@ class DashboardController extends Controller
         return redirect('/dashboard/job-listings');
     }
     //show the resume page
-    public function showResume(){
-        return view('users.dashboard.resume');
+    public function showResume(Request $request){
+        $user = $request->user();
+        // $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
+        $user_resume=$user->user_resumes()->latest()->limit(5)->get();
+       // dd( $user_resume->id());
+        return view('users.dashboard.resume',['user_resume'=>$user_resume]);
+    }
+
+    //show the resume form
+    public function showResumeForm(){
+        return view('users.dashboard.createresume');
+    }
+    //create resume and save to database
+    public function storeResume(Request $request){
+        $user = $request->user();
+        
+        $formFields = $request->validate([
+            'name' => ['required'],
+            'resume_url' => 'required|mimes:pdf,xlsx,xls,csv', //in order mo receive siya og stated URL
+        ]);
+       
+        $formFields['resume_url'] =$request->file('resume_url')->store('resumes', 'public'); //to store sa local nga 'storage' na folder
+        $user->user_resumes()->create($formFields);
+        return redirect('/dashboard/my-resume')->with('success','Resume created successfully.');
     }
 }

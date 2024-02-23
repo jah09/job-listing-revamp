@@ -59,6 +59,8 @@ Route::post('/createcompany',[DashboardController::class,'create_company']);
 
 //create job posting
 Route::post('/createjoblisting',[DashboardController::class,'create_jobposting']);
+
+Route::post('/store-resume',[DashboardController::class,'storeResume'])->name('storeResume');
 //dashboard route but ge group
 Route::group([
     'as'        => 'dashboard', // Route group name
@@ -77,7 +79,11 @@ Route::group([
 
     Route::get('settings', [DashboardController::class, 'showSettings'])->name('.settings');//show the UI of profile settings
 
-    Route::get('my-resume',[DashboardController::class,'showResume'])->name('.resume');
+    Route::get('my-resume',[DashboardController::class,'showResume'])->name('.resume'); //show the resume page
+
+    Route::get('create-resume',[DashboardController::class,'showResumeForm'])->name('.showresumeform');
+    
+   
     
   
 }
