@@ -59,6 +59,7 @@ class UserController extends Controller
         if (auth()->attempt($formfields)) {
             $request->session()->regenerate();
 
+            ///dashboard/home
             return redirect('/dashboard/home')->with('message', 'You are now logged in');
         }
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
@@ -72,7 +73,7 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         // return redirect('/login')->with('message', 'You have been logged out');
-        return redirect('/login')->with('error','Logout successfully');
+        return redirect('/')->with('error','Logout successfully');
     }
     //update the user settings
     public function update_settings(Request $request)

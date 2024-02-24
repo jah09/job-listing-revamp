@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserResume extends Model
 {
-    protected $fillable=['user_id','resume_url'];
+    protected $fillable=['user_id','resume_url','name'];
     use HasFactory;
 
     public function user(){
