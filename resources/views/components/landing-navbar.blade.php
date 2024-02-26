@@ -32,59 +32,24 @@
 
 
 <body>
-    <nav class=" items-center bg-[#023047] w-full">
-        <container class="bg-[#023047] mx-auto flex justify-between w-[90%]  ">
-            <div class="mt-2"> <img src="{{ asset('images/img_logo.svg') }}" alt="logo" class="w-24  p-2"></div>
-            <div>
-                <ul class="flex py-4 mx-4   ">
-                    <a href="">
-                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">Home</li>
-                    </a>
-                    <a href="">
-                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">About</li>
-                    </a>
-                    <a href="">
-                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">Contact</li>
-                    </a>
-                    <a href="/login">
-                        <li class="p-2 text-white text-md font-semibold hover:text-[#229fe7]">Login</li>
-                    </a>
-
-
-                </ul>
-            </div>
-        </container>
-        {{-- <a href="/"><img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo" /></a>
-        <ul class="flex space-x-6 mr-6 text-lg">
+    <div class="px-[40px] pt-[24px] z-40 absolute top-0 left-0 flex justify-between items-start w-full h-full  ">
+        <img class="w-[100px]" src="images/img_logo.svg" alt="">
+        <div class="space-x-6 text-white font-semibold">
+            <a href="/" class="hover:text-[#229fe7]">Home</a>
+            <a href="/about" class="hover:text-[#229fe7]">About</a>
+            <a href="/contact" class="hover:text-[#229fe7]">Contact</a>
             @auth
-            <li>
-                <span class="font-bold uppercase">
-                    Welcome {{ auth()->user()->name }}
-                </span>
-            </li>
-            <li>
-                <a href="/listings/manage" class="hover:text-laravel"><i class="fa-solid fa-gear"></i>
-                    Manage Listing</a>
-            </li>
-            <li>
-                <form class="inline" action="/logout" method="post">
+                <form class="inline" method="POST" action="/logout">
                     @csrf
-                    <button type="submit">
-                        <i class="fa-solid fa-door-closed"></i> Logout
+                    <button type="submit" class="hover:text-[#229fe7]">
+                        Logout
                     </button>
                 </form>
-            </li>
             @else
-            <li>
-                <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>
-            </li>
-            <li>
-                <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    Login</a>
-            </li>
+                <a href="/login" class="hover:text-[#229fe7]">Login</a>
             @endauth
-        </ul> --}}
-    </nav>
+        </div>
+    </div>
     <main class="">
         {{ $slot }}
     </main>

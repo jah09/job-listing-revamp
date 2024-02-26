@@ -1,6 +1,12 @@
 <x-landing-navbar>
-    @include('partials.landing._hero')
-
-    <x-listingsection />
- @include('partials.landing._footer')
+    @include('partials._hero')
+   
+    <x-listingsection :jobListing="$jobListing"/>
+        {{-- @include('listingsection', ['jobListing' => $jobListing]) --}}
+ @include('partials._footer')
 </x-landing-navbar>
+
+
+{{-- <x-landing-navbar>
+    @include('partials._header')  @props(['jobListing']) 
+</x-landing-navbar> --}}
