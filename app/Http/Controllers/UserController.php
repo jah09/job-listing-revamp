@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Models\JobListing;
 
 class UserController extends Controller
 {
@@ -97,5 +98,20 @@ class UserController extends Controller
         );
         return redirect(route('dashboard.settings'));
     
+    }
+
+    //show the landing page
+    public function show_landing_page(){
+        $user_joblisting = JobListing::all();
+        
+        return view('landing',['jobListing'=>$user_joblisting]
+           
+        );
+    }
+
+    //show the job listing details page
+    public function showJobListingDetails(Request $request){
+        $listing=JobListing::find($request->jobdetails);
+        return view('components.joblistingdetails',['listing'=>$listing]);
     }
 }

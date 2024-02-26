@@ -103,7 +103,7 @@
 
                     <button type="submit"
                         class="w-40 bg-gradient-to-r from-hipe-blue to-hipe-dark-blue   py-2 rounded-lg mx-auto block focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 mb-2 font-semibold transition hover:-translate-y-1 hover:scale-110 ease-in-out delay-150  text-black">Create
-                        Company</button>
+                        Job</button>
 
             </div>
             </form>
