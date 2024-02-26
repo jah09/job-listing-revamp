@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobApplication extends Model
 {
-    protected $filalble=['job_listing_id','user_id','resume_id','first_name','lastn_name','tel','education'];
+    protected $fillable=['job_listing_id','user_id','resume_id','first_name','last_name','tel','education'];
     use HasFactory;
 
     public function user(){

@@ -25,6 +25,9 @@ Route::get('/', [UserController::class, 'show_landing_page']);
 //navigate to job listing details
 Route::get('/job-details/{jobdetails}', [UserController::class, 'showJobListingDetails']);
 
+// insert  data to job application database
+Route::post('/create-job-application',[UserController::class,'createJobApplication']);
+
 //show login form
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 
