@@ -28,6 +28,8 @@ Route::get('/job-details/{jobdetails}', [UserController::class, 'showJobListingD
 // insert  data to job application database
 Route::post('/create-job-application',[UserController::class,'createJobApplication']);
 
+//subscribe function
+Route::post('/subscribe',[UserController::class,'createSubscription']);
 //show login form
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 

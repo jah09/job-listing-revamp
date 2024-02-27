@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Carbon\Carbon;
 
+use App\Models\User;
 use App\Models\JobListing;
+use App\Models\Newsletter;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 
@@ -20,7 +23,7 @@ class UserController extends Controller
     }
 
 
-    //return the register form
+    //return the view register form
     public function register()
     {
         return  view('users.register');
@@ -63,7 +66,7 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             ///dashboard/home
-            return redirect('/dashboard/home')->with('message', 'You are now logged in');
+            return redirect('/dashboard/home')->with('success', 'You are now logged in');
         }
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
@@ -76,7 +79,7 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         // return redirect('/login')->with('message', 'You have been logged out');
-        return redirect('/')->with('error', 'Logout successfully');
+        return redirect('/')->with('success', 'Logout successfully');
     }
     //update the user settings
     public function update_settings(Request $request)
@@ -174,5 +177,19 @@ class UserController extends Controller
         }
 
         //return redirect('/dashboard/home')->with('success', 'Apply successfully.');
+    }
+
+    //create subscribe or click the subscribe button in footer
+    public function createSubscription(Request $request){
+        $user=$request->user();
+        $formFields=$request->validate([
+            'email'=>['email','required']
+        ]);
+       // $user->user_companies()->create($formFields);
+       //DB::table('newsletters')->create($formFields)->with('success','Subscribe Successfully');
+      // DB::table('newsletters')->create($formFields)->redirect('/dashboard/home');
+      $formFields['subscribe_date']=Carbon::now();
+      Newsletter::create($formFields);
+      return redirect('/')->with('success','Subscribe Successfully');
     }
 }
