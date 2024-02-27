@@ -9,7 +9,7 @@
     </div>
 
     
-    <div class="max-w-7xl container mx-auto hidden lg:block z-10 text-start relative">
+    <div class="max-w-7xl container mx-auto hidden lg:block z-10 text-start relative ">
         <span class="absolute text-xs font-semibold text-white pt-4 ps-4">YOURSURNAME'S</span>
         <h1 class="text-[84px] font-bold uppercase text-[#ffa903]">
             JOB<span class="text-[#229fe7] font-semibold">LISTING</span>
@@ -21,7 +21,7 @@
         </p>
     </div>
 
-    <div class="absolute bottom-0 w-full text-center py-6 text-white">
+    <div class="absolute bottom-0 w-full text-center py-6 text-white ">
         <p>scroll down</p>
         <p class="animate-bounce"><i class="fa-solid fa-angle-down"></i></p>
     </div>

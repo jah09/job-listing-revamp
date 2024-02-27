@@ -4,6 +4,7 @@
             icon: "success",
             title: "{{ session('success') }}",
             confirmButtonText: "OK",
+            confirmButtonColor: "#023047",
             timer: 2500
         });
     </script>

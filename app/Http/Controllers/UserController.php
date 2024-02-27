@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use App\Models\User;
+use App\Models\Contact;
 use App\Models\JobListing;
 use App\Models\Newsletter;
 use Illuminate\Http\Request;
@@ -22,6 +23,27 @@ class UserController extends Controller
         return  view('users.login');
     }
 
+    //show the contact page screen
+    public  function showContactPage()
+    {
+        return view('contacts');
+    }
+
+    //insert to contact db
+    public function storeContactUs(Request $request)
+    {
+
+        $formFields = $request->validate([
+            'email' => ['email', 'required'],
+            'subject' => ['required'],
+            'message' => ['required']
+        ]);
+      //  $formFields['subscribe_date'] = Carbon::now();
+        Contact::create($formFields);
+        
+        return redirect('/')->with('success', 'Contact Successfully');
+    
+    }
 
     //return the view register form
     public function register()
@@ -83,7 +105,8 @@ class UserController extends Controller
     }
 
     //show the forgot password page
-    public function showChangePasswordPage(){
+    public function showChangePasswordPage()
+    {
         return view('users.forgotpassword');
     }
 
@@ -126,7 +149,7 @@ class UserController extends Controller
     //show the job listing details page
     public function showJobListingDetails(Request $request)
     {
-      
+
         // Check if a user is authenticated
         if ($request->user()) {
             // If authenticated, proceed with fetching user details and resumes
@@ -138,7 +161,7 @@ class UserController extends Controller
         }
 
         // Fetch the job listing details
-        $listing = JobListing::find($request->jobdetails);// pass the parameters or the item clicked by user
+        $listing = JobListing::find($request->jobdetails); // pass the parameters or the item clicked by user
 
         //  dd( auth()->user()->id != $listing->user_id);
         $educationType = ['none', 'elem', 'jhs', 'shs', 'bachelor', 'masters', 'doctorate'];
@@ -160,7 +183,7 @@ class UserController extends Controller
             'education' => ['required']
         ]);
 
-      
+
         $job_application = $user->user_applications()
             ->where('job_listing_id', $formFields['job_listing_id'])
             ->first();
@@ -172,8 +195,6 @@ class UserController extends Controller
         } else {
             return redirect('/dashboard/my-resume')->with('error', 'You already submitted an application form for this job listing');
         }
-
-       
     }
 
     //create subscribe or click the subscribe button in footer

@@ -33,12 +33,17 @@
 
 
 <body>
-    <div class="px-[40px] pt-[24px] z-40 absolute top-0 left-0 flex justify-between items-start w-full h-full  ">
+    <div class="px-[40px] pt-[24px] z-40 absolute top-0 left-0 flex justify-between items-start w-full h-full ">
         <img class="w-[100px]" src="images/img_logo.svg" alt="">
-        <div class="space-x-6 text-white font-semibold">
+        <div class="space-x-6 text-white font-semibold ">
             <a href="/" class="hover:text-[#229fe7]">Home</a>
             <a href="/about" class="hover:text-[#229fe7]">About</a>
-            <a href="/contact" class="hover:text-[#229fe7]">Contact</a>
+            <form action="/contact-us" method="GET" class="inline">
+                @csrf
+                <button type="submit" class="hover:text-[#229fe7]">Contact</button>
+                {{-- <a href="" class="hover:text-[#229fe7]">Contact</a> --}}
+            </form>
+          
             @auth
                 <form class="inline" method="POST" action="/logout">
                     @csrf
