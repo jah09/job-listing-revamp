@@ -83,8 +83,10 @@ class DashboardController extends Controller
     public function showJobApplication(Request $request)
     {
         $user = $request->user();
+       
         $userJobApplications=$user->user_applications()->latest()->get();
-       // dd($userJobApplications);
+       
+      
         return  view('users.dashboard.jobapplication',['userJobApplications'=>$userJobApplications]);
     }
 

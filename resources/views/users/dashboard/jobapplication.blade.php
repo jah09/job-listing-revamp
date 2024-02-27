@@ -39,7 +39,9 @@
                     <td class="px-6 py-4">₱{{ $item->job_listing->min_monthly_salary }} -
                         ₱{{ $item->job_listing->max_monthly_salary }}</td>
                     <td class="px-6 py-4 text-red">
-                        {{ $item->user_resumes->name }}
+                        {{-- {{ $item->user_resume ? $item->user_resume->name : '' }} --}}
+                        {{$item->resume->name}}
+                        {{-- {{ App\Models\UserResume::findOrFail($item->resume_id)->name }} --}}
                     </td>
                     <td class="px-6 py-4 text-red">
                         {{  date('Y-m-d', strtotime($item->created_at))}}
