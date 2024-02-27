@@ -22,6 +22,10 @@ use App\Http\Controllers\UserController;
 //show the landing page
 Route::get('/', [UserController::class, 'show_landing_page']);
 
+Route::get('/contact-us',[UserController::class,'showContactPage']);//show the contact us page
+
+Route::post('/contact-us-submit',[UserCOntroller::class,'storeContactUs']);
+
 //user codes
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');  //show login form
 Route::get('/register', [UserController::class, 'register']); //show signup form
