@@ -66,7 +66,10 @@ Route::group(
 
         Route::get('job-listings', [DashboardController::class, 'showJobListing'])->name('.joblistings'); //show the job listing UI/page
         Route::get('/job-listings/job-post', [DashboardController::class, 'showCreateJobListingForm'])->name('.createJobListing'); //show the create job listing form
-
+       
+        Route::get('/job-listings/{listing_id}/applicants',[DashboardController::class,'showJobListingApplicantsPage']); //show the job listing applicants page
+        
+        Route::post('/job-listings/{listing_id}/applicant/{applicant_id}/update-status',[DashboardController::class,'updateApplicantStatus']); // update the applicants status
 
         Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
 
