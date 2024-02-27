@@ -18,7 +18,7 @@ class JobApplication extends Model
     }
 
     public function user_resume(){
-        return $this->belongsTo(UserResume::class);
+        return $this->belongsTo(UserResume::class, 'resume_id');
     }
 
     // public function belongTo_JobApplication(){

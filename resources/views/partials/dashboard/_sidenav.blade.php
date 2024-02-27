@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li
-                    class="{{ Request::is('dashboard/job-listings')||Request::is('dashboard/job-listings/job-post') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
+                    class="{{ Request::is('dashboard/job-listings')||Request::is('dashboard/job-listings/job-post') ||Request::is ('dashboard/job-listings/2/applicants') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
                     <a href="{{ route('dashboard.joblistings') }}" class="">
                         <i class="ps-2.5 fa-solid fa-user-doctor"></i>
                         <span class="ml-3 flex-1 whitespace-nowrap">Job Listings</span>

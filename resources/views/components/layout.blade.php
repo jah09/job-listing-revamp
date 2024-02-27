@@ -69,7 +69,7 @@
     <main class="">
         {{ $slot }}
     </main>
-   
+   <x-flash-message/>
 </body>
 
 

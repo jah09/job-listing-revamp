@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Carbon\Carbon;
 
+use App\Models\User;
+use App\Models\Contact;
 use App\Models\JobListing;
+use App\Models\Newsletter;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 
@@ -19,8 +23,29 @@ class UserController extends Controller
         return  view('users.login');
     }
 
+    //show the contact page screen
+    public  function showContactPage()
+    {
+        return view('contacts');
+    }
 
-    //return the register form
+    //insert to contact db
+    public function storeContactUs(Request $request)
+    {
+
+        $formFields = $request->validate([
+            'email' => ['email', 'required'],
+            'subject' => ['required'],
+            'message' => ['required']
+        ]);
+      //  $formFields['subscribe_date'] = Carbon::now();
+        Contact::create($formFields);
+        
+        return redirect('/')->with('success', 'Contact Successfully');
+    
+    }
+
+    //return the view register form
     public function register()
     {
         return  view('users.register');
@@ -63,7 +88,7 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             ///dashboard/home
-            return redirect('/dashboard/home')->with('message', 'You are now logged in');
+            return redirect('/dashboard/home')->with('success', 'You are now logged in');
         }
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
@@ -76,8 +101,16 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         // return redirect('/login')->with('message', 'You have been logged out');
-        return redirect('/')->with('error', 'Logout successfully');
+        return redirect('/')->with('success', 'Logout successfully');
     }
+
+    //show the forgot password page
+    public function showChangePasswordPage()
+    {
+        return view('users.forgotpassword');
+    }
+
+
     //update the user settings
     public function update_settings(Request $request)
     {
@@ -101,6 +134,7 @@ class UserController extends Controller
         return redirect(route('dashboard.settings'));
     }
 
+
     //show the landing page
     public function show_landing_page()
     {
@@ -115,21 +149,19 @@ class UserController extends Controller
     //show the job listing details page
     public function showJobListingDetails(Request $request)
     {
-        // $user = $request->user();
-        // $user_resume = $user->user_resumes()->get();
-        // dd($user_resume->count());
+
         // Check if a user is authenticated
         if ($request->user()) {
             // If authenticated, proceed with fetching user details and resumes
             $user = $request->user();
             $user_resume = $user->user_resumes()->get();
         } else {
-            // If not authenticated, set $user_resume to an empty collection or handle it according to your application logic
+            // If not authenticated, set $user_resume to an empty collection
             $user_resume = collect();
         }
 
         // Fetch the job listing details
-        $listing = JobListing::find($request->jobdetails);
+        $listing = JobListing::find($request->jobdetails); // pass the parameters or the item clicked by user
 
         //  dd( auth()->user()->id != $listing->user_id);
         $educationType = ['none', 'elem', 'jhs', 'shs', 'bachelor', 'masters', 'doctorate'];
@@ -151,16 +183,7 @@ class UserController extends Controller
             'education' => ['required']
         ]);
 
-        // $job_application = $user->user_applications()->firstOrNew($formFields);
 
-        // if (!$job_application->exists()) {
-        //     $job_application->save();
-        //     return redirect('/dashboard/home')->with('success' , 'Application form submitted');
-
-        // } else {
-
-        //     return redirect('/dashboard/my-resume')->with('error' ,'You already submitted an application form on this company');
-        // }
         $job_application = $user->user_applications()
             ->where('job_listing_id', $formFields['job_listing_id'])
             ->first();
@@ -172,7 +195,17 @@ class UserController extends Controller
         } else {
             return redirect('/dashboard/my-resume')->with('error', 'You already submitted an application form for this job listing');
         }
+    }
 
-        //return redirect('/dashboard/home')->with('success', 'Apply successfully.');
+    //create subscribe or click the subscribe button in footer
+    public function createSubscription(Request $request)
+    {
+        $user = $request->user();
+        $formFields = $request->validate([
+            'email' => ['email', 'required']
+        ]);
+        $formFields['subscribe_date'] = Carbon::now();
+        Newsletter::create($formFields);
+        return redirect('/')->with('success', 'Subscribe Successfully');
     }
 }

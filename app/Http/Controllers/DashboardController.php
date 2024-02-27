@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
-use App\Models\JobCategory;
 use App\Models\JobListing;
+use App\Models\JobCategory;
 use Illuminate\Http\Request;
+use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
 {
@@ -75,17 +77,55 @@ class DashboardController extends Controller
 
         $user = $request->user();
         $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
-          
+
         return  view('users.dashboard.joblistings', ['user_joblisting' => $user_joblisting]);
+    }
+
+    //show the job listing applicants
+    public function showJobListingApplicantsPage(Request $request)
+    {
+        /*  */
+        $user = $request->user();
+        $clickItem = $request->listing_id;
+
+        $jobListings = $user->user_joblistings()->where('id', $clickItem)->get();
+        $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get();
+        // dd($jobListings->job_title);
+        // dd($jobApplications);
+        return  view('users.dashboard.jobapplicants', [
+            'jobListings' => $jobListings,
+            'jobApplications' => $jobApplications
+        ]);
+    }
+    //update the job applicants for that job listings
+    public function updateApplicantStatus(Request $request)
+    {
+        $user = $request->user();
+        //   dd($request->listing_id);
+        // dd($request->applicant_id);
+        $applicantId = $request->applicant_id;
+        $applicant = JobApplication::find($applicantId);
+
+        if ($applicant) {
+            $applicant->status = $request->status;
+            $applicant->save();
+            //redirect back with success message
+            return Redirect::back()->with(['success' => 'Applicant status successfully updated']);
+        } else {
+            //redirect with error message
+            return Redirect::back()->with(['error' => 'Applicant not found']);
+        }
     }
 
     //show job applications
     public function showJobApplication(Request $request)
     {
         $user = $request->user();
-        $userJobApplications=$user->user_applications()->latest()->get();
-       // dd($userJobApplications);
-        return  view('users.dashboard.jobapplication',['userJobApplications'=>$userJobApplications]);
+
+        $userJobApplications = $user->user_applications()->latest()->get();
+
+
+        return  view('users.dashboard.jobapplication', ['userJobApplications' => $userJobApplications]);
     }
 
 
@@ -138,7 +178,7 @@ class DashboardController extends Controller
         $user->user_companies()->create($formFields);
 
         // return redirect('dashboard.home')->with('message', 'Listing created successfully');
-        return redirect('/dashboard/company')->with('success','Company created successfully');
+        return redirect('/dashboard/company')->with('success', 'Company created successfully');
     }
 
     //show the create post form
@@ -176,29 +216,32 @@ class DashboardController extends Controller
         return redirect('/dashboard/job-listings');
     }
     //show the resume page
-    public function showResume(Request $request){
+    public function showResume(Request $request)
+    {
         $user = $request->user();
         // $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
-        $user_resume=$user->user_resumes()->latest()->limit(5)->get();
-       // dd( $user_resume->id());
-        return view('users.dashboard.resume',['user_resume'=>$user_resume]);
+        $user_resume = $user->user_resumes()->latest()->limit(5)->get();
+        // dd( $user_resume->id());
+        return view('users.dashboard.resume', ['user_resume' => $user_resume]);
     }
 
     //show the resume form
-    public function showResumeForm(){
+    public function showResumeForm()
+    {
         return view('users.dashboard.createresume');
     }
     //create resume and save to database
-    public function storeResume(Request $request){
+    public function storeResume(Request $request)
+    {
         $user = $request->user();
-        
+
         $formFields = $request->validate([
             'name' => ['required'],
             'resume_url' => 'required|mimes:pdf,xlsx,xls,csv', //in order mo receive siya og stated URL
         ]);
-       
-        $formFields['resume_url'] =$request->file('resume_url')->store('resumes', 'public'); //to store sa local nga 'storage' na folder
+
+        $formFields['resume_url'] = $request->file('resume_url')->store('resumes', 'public'); //to store sa local nga 'storage' na folder
         $user->user_resumes()->create($formFields);
-        return redirect('/dashboard/my-resume')->with('success','Resume created successfully.');
+        return redirect('/dashboard/my-resume')->with('success', 'Resume created successfully.');
     }
 }

@@ -9,10 +9,11 @@
         <thead class="bg-gray-100">
             <tr>
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
-                <th scope="col" class="px-6 py-4 font-medium text-gray-900  w-64">Job Title</th>
-                <th scope="col" class="px-6 py-4 font-medium text-gray-900 w-56">Salary Range</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900  w-48">Job Title</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900 w-48">Salary Range</th>
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900 ">Resume </th>
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Date applied</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Application</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-100 border-t border-gray-100">
@@ -39,10 +40,23 @@
                     <td class="px-6 py-4">₱{{ $item->job_listing->min_monthly_salary }} -
                         ₱{{ $item->job_listing->max_monthly_salary }}</td>
                     <td class="px-6 py-4 text-red">
-                        {{ $item->user_resumes->name }}
+                        {{-- {{ $item->user_resume ? $item->user_resume->name : '' }} --}}
+                        {{$item->user_resume->name}}
+                        {{-- {{ App\Models\UserResume::findOrFail($item->resume_id)->name }} --}}
                     </td>
                     <td class="px-6 py-4 text-red">
                         {{  date('Y-m-d', strtotime($item->created_at))}}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span
+                            class="{{ $item->status == 'reject' ? 'inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600 animate-pulse' :'inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600 animate-pulse'}} ">
+
+                            {{-- <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                            {{ $item->status }} --}}
+                            <span class="{{ $item->status == 'reject' ? 'h-1.5 w-1.5 rounded-full bg-red-600' : 'h-1.5 w-1.5 rounded-full bg-green-600' }}"></span>
+                            {{ $item->status }}
+                            
+                        </span>
                     </td>
                 </tr>
             @endforeach
