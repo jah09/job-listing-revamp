@@ -20,38 +20,46 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 border-t border-gray-100 w-full">
-
-                @foreach ($user_joblisting as $item)
-                    <tr class="hover:bg-gray-100 ">
-                        <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
-                            <div class="relative h-16 w-16">
-                                <img class="h-full w-full rounded-lg object-contain bg-gray-200 p-2 object-center"
-                                    src="{{ asset('storage/' . $item->company->logo_url) }}" alt="" />
-                            </div>
-                            <a href="/dashboard/job-listings/{{ $item->id }}/applicants">
-                                <div class="text-sm">
-                                    <div class="font-medium text-gray-700">{{ $item->job_title }}</div>
-                                    <div class="text-gray-400">{{ $item->company->name }}</div>
+                @if ($user_joblisting->count() > 0)
+                    @foreach ($user_joblisting as $item)
+                        <tr class="hover:bg-gray-100 ">
+                            <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
+                                <div class="relative h-16 w-16">
+                                    <img class="h-full w-full rounded-lg object-contain bg-gray-200 p-2 object-center"
+                                        src="{{ asset('storage/' . $item->company->logo_url) }}" alt="" />
                                 </div>
-                            </a>
-                        </th>
-                        <td class="px-6 py-4">
-                            <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                                {{ $item->job_category->name }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4">{{ $item->job_listings->count() }}</td>
-                        <td class="px-6 py-4 text-green-500">
-                            <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                                <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                                {{ $item->employment_type }}
-                            </span>
+                                <a href="/dashboard/job-listings/{{ $item->id }}/applicants">
+                                    <div class="text-sm">
+                                        <div class="font-medium text-gray-700">{{ $item->job_title }}</div>
+                                        <div class="text-gray-400">{{ $item->company->name }}</div>
+                                    </div>
+                                </a>
+                            </th>
+                            <td class="px-6 py-4">
+                                <span
+                                    class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                    {{ $item->job_category->name }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">{{ $item->job_listings->count() }}</td>
+                            <td class="px-6 py-4 text-green-500">
+                                <span
+                                    class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                    {{ $item->employment_type }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-12 text-center" colspan="6">
+                            <h1 class="text-hipe-blue font-semibold text-2xl">NO JOB LISTING YET</h1>
                         </td>
                     </tr>
-                @endforeach
+                @endif
+
             </tbody>
         </table>
     </div>
