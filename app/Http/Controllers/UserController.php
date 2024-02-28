@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 
+
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Contact;
 use App\Models\JobListing;
@@ -14,6 +15,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log as log;
 
 class UserController extends Controller
 {
@@ -125,13 +127,22 @@ class UserController extends Controller
             'gender' => ['required', 'min:3'],
             'address' => ['required', 'min:3'],
             'tel' => ['required', 'min:3'],
+            'profile_logo'=>['required']
         ]);
-
+       
+        if ($request->hasFile('profile_logo')) {
+            /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
+            $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
+        }
         $user->user_detail()->updateOrCreate(
             ['user_id' => $user->id], // Search criteria
             $formFields // Values to update or create
         );
-        return redirect(route('dashboard.settings'));
+        return redirect(route('dashboard.settings'))->with('success','Profile updated successfully.');
+
+
+      
+        
     }
 
 

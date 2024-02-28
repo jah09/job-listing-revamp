@@ -110,7 +110,7 @@
                             <div class="w-4/5 border-r px-2">
                                 <i class="text-hipe-yellow fa-solid fa-circle-info"></i>
                                 <span class="font-normal text-sm">This resume is being used in <span
-                                        class="text-lg font-bold text-hipe-dark-blue">23</span> job applications.</span>
+                                        class="text-lg font-bold text-hipe-dark-blue">{{$item->user_job_application->count()}}</span> job applications.</span>
                             </div>
                             <div class="w-1/5">
 

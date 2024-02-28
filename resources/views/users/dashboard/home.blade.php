@@ -7,10 +7,10 @@
 
 
             </div>
-            <div class=" mr-4 flex flex-col justify-center ">
+            {{-- <div class=" mr-4 flex flex-col justify-center ">
                 <h6 class="text-sm font-bold text-green-500">{{ $listingPercentage }}$ <span><i
                             class="fa-solid fa-arrow-up text-green-500"></i></span></h6>
-            </div>
+            </div> --}}
         </div>
         <div class="rounded-md bg-gray-100 shadow-md flex justify-between ">
             <div class="p-6">
@@ -19,10 +19,10 @@
 
 
             </div>
-            <div class=" mr-4 flex flex-col justify-center ">
+            {{-- <div class=" mr-4 flex flex-col justify-center ">
                 <h6 class="text-sm font-semibold text-green-500">32.9% <span><i
                             class="fa-solid fa-arrow-up text-green-500"></i></span></h6>
-            </div>
+            </div> --}}
         </div>
         <div class="rounded-md bg-gray-100 shadow-md flex justify-between ">
             <div class="p-6">
@@ -31,10 +31,10 @@
 
 
             </div>
-            <div class=" mr-4 flex flex-col justify-center ">
+            {{-- <div class=" mr-4 flex flex-col justify-center ">
                 <h6 class="text-sm font-semibold text-red-500">-2.7% <span><i
                             class="fa-solid fa-arrow-down text-red-500"></i></span></h6>
-            </div>
+            </div> --}}
         </div>
     </div>
 

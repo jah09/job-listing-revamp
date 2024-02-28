@@ -22,18 +22,16 @@ class DashboardController extends Controller
         $user = $request->user(); //this will return authenticated user data
         //then we can use the user's model to access its eloquent relationship
         //for example:
-        $user_joblistings_count = $user->user_joblistings()->count(); //job listing
+        $user_joblistings_count = $user->user_joblistings()->count(); //job listing count
 
-        //calculate the percentage
-        $totalCount = JobListing::count(); // This queries the total count of job listings from the database
-        $percentage = $totalCount > 0 ? ($user_joblistings_count / $totalCount) * 100 : 0; // Calculate the percentage if totalCount is greater than 0
 
         //job listing applications
-        $user_job_listings = $user->user_joblistings();
+        $user_job_listings = $user->user_joblistings()->latest()->get();
+
         $user_job_listing_application_count = 0;
         //this will loop through each user's job listing and count all job listing applications.
         foreach ($user_job_listings as $user_job_listing) {
-            $user_job_listing_application_count += $user_job_listing->job_listing_applications()->count();
+            $user_job_listing_application_count += $user_job_listing->job_listings()->count();
         }
 
         //job application
@@ -46,7 +44,7 @@ class DashboardController extends Controller
             'users.dashboard.home',
             [
                 'listingCount' => $user_joblistings_count,
-                'listingPercentage' => $percentage,
+
                 'user_job_listing_application_count' => $user_job_listing_application_count,
                 'user_job_applications_count' => $user_job_applications_count,
                 'user_companies' => $user_companies
@@ -58,7 +56,7 @@ class DashboardController extends Controller
     public function showCompany(Request $request)
     {
         $user = $request->user();
-        $user_companies = $user->user_companies()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
+        $user_companies = $user->user_companies()->withoutTrashed()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
 
         return  view('users.dashboard.company', [
             'user_companies' => $user_companies
@@ -68,12 +66,6 @@ class DashboardController extends Controller
     //show the job listings
     public function showJobListing(Request $request)
     {
-        // $user = $request->user();
-        // $user_companies = $user->user_companies()->empty();
-        // dd($user_companies);
-        // if ($user_companies) {
-        // } else {
-        // }
 
         $user = $request->user();
         $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
@@ -84,14 +76,22 @@ class DashboardController extends Controller
     //show the job listing applicants
     public function showJobListingApplicantsPage(Request $request)
     {
-        /*  */
+        /* Sir approach
+        $joblisting = JobListing::find($request->listing_id);
+        $joblisting_applicants = $joblisting->job_applications()->latest()->get();
+         */
         $user = $request->user();
-        $clickItem = $request->listing_id;
+        $clickItem = $request->listing_id; //get the Job listing ID of clicked item
 
-        $jobListings = $user->user_joblistings()->where('id', $clickItem)->get();
-        $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get();
-        // dd($jobListings->job_title);
-        // dd($jobApplications);
+        $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
+        //  $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get(); //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
+        $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
+        // $jobApplicationsTest=$user->user_applications()->get();
+        // dd($jobApplicationsTest);
+        // $jobListings= JobListing::find($clickItem);
+
+        //$jobApplications= $jobListings->job_listings()->latest()->get();
+        //.dd( $jobListings);
         return  view('users.dashboard.jobapplicants', [
             'jobListings' => $jobListings,
             'jobApplications' => $jobApplications
@@ -103,12 +103,13 @@ class DashboardController extends Controller
         $user = $request->user();
         //   dd($request->listing_id);
         // dd($request->applicant_id);
-        $applicantId = $request->applicant_id;
-        $applicant = JobApplication::find($applicantId);
+        $applicantId = $request->applicant_id; // the applicant_id is from the jobapplicant.blade, hidden input in the form
+        $applicant = JobApplication::find($applicantId); //find a specific application base on the applicant ID
 
+        //if applicant is found then update, e over ride ra ang status
         if ($applicant) {
-            $applicant->status = $request->status;
-            $applicant->save();
+            $applicant->status = $request->status; //override the status to the new status
+            $applicant->save(); // save
             //redirect back with success message
             return Redirect::back()->with(['success' => 'Applicant status successfully updated']);
         } else {
@@ -122,14 +123,12 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
-        $userJobApplications = $user->user_applications()->latest()->get();
-
-
+        $userJobApplications = $user->user_applications()->latest()->get(); //fetch the application of user
         return  view('users.dashboard.jobapplication', ['userJobApplications' => $userJobApplications]);
     }
 
 
-    // showSettings
+
     //show settings
     public function  showSettings(Request $request)
     {
@@ -169,7 +168,9 @@ class DashboardController extends Controller
             'website' => ['required'],
         ]);
 
+        //This line checks if the incoming HTTP request has a file input named 'logo_url'. The hasFile method returns true if a file was uploaded via the specified input field.
         if ($request->hasFile('logo_url')) {
+            /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
             $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
         }
 
@@ -185,8 +186,9 @@ class DashboardController extends Controller
     public function showCreateJobListingForm()
     {
 
-        $companies = Company::all();
-        $categories = JobCategory::all();
+        $companies = Company::all(); //retrieve all company record
+        $categories = JobCategory::all(); //retrieve all job category record
+        //check if user already created an company, if dili 0 thn maka show ra sa job listing create form
         if ($companies->count() != 0) {
             return view('users.dashboard.createjobposting', [
                 'companies' => $companies,
@@ -197,6 +199,17 @@ class DashboardController extends Controller
         }
     }
 
+    //soft delete a company
+    public function companySoftDelete(Request $request)
+    {
+        $clickItem = $request->company_id;
+        $company = Company::find($clickItem);
+
+
+        $company->delete();
+        //  dd($company);
+        return Redirect::back()->with('success', 'Company successfully moved to trash');
+    }
     //create a job posting 
     public function create_jobposting(Request $request)
     {
@@ -213,7 +226,7 @@ class DashboardController extends Controller
 
         ]);
         $user->user_joblistings()->create($formFields);
-        return redirect('/dashboard/job-listings');
+        return redirect('/dashboard/job-listings')->with('success', 'Created job listing successfully.');
     }
     //show the resume page
     public function showResume(Request $request)

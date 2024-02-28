@@ -13,11 +13,12 @@
         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead class="bg-gray-100">
                 <tr>
-                    <th scope="col" class="px-6 py-4 font-medium text-gray-900 w-40">Application ID</th>
-                    <th scope="col" class=" py-4 font-medium text-gray-900">First Name</th>
+                    <th scope="col" class="px-6 py-4 font-medium text-gray-900 w-16"> ID</th>
+                    <th scope="col" class=" py-4 font-medium text-gray-900 ">First Name</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Last Name</th>
-                    <th scope="col" class="py-4 font-medium text-gray-900">Contact Number</th>
-                    <th scope="col" class="py-4 font-medium text-gray-900 ">Email Address</th>
+                    <th scope="col" class="py-4 font-medium text-gray-900"> Number</th>
+                    <th scope="col" class="py-4 font-medium text-gray-900 ">Email </th>
+                    <th scope="col" class="py-4 font-medium text-gray-900 ">Resume </th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Status</th>
                 </tr>
             </thead>
@@ -46,8 +47,15 @@
                             <td class="py-4">
                                 <p class=" text-gray-700">{{ $item->user->email }}</p>
                             </td>
+                            <td class="py-4">
+                                <a href="{{ asset('storage/' . $item->user_resume->resume_url) }}" target="_blank">
 
-                            <td class="px-4">
+
+                                    <p class=" text-gray-700 hover:font-medium">{{ $item->user_resume->name }}</p>
+                                </a>
+                            </td>
+
+                            <td class="px-4 ">
                                 <form id="form_{{ $item->id }}" method="POST"
                                     action="applicant/{applicant_id}/update-status" enctype="multipart/form-data">
                                     @csrf
@@ -80,9 +88,6 @@
                                 </form>
                             </td>
                         </tr>
-                        {{-- @else
-                
-                @endif --}}
                     @endforeach
                 @else
                     <tr class="hover:bg-gray-50">
