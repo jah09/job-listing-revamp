@@ -2,7 +2,7 @@
     <div class="px-12 mt-8 overflow-hidden rounded-lg border border-gray-200">
         @foreach ($jobListings as $item)
             <div class="flex justify-between items-center mb-10">
-                <h1 class="text-[44px] font-sans font-bold">Applicants for - {{ $item->job_title }}</h1>
+                <h1 class="text-[44px] font-sans font-bold">Applicants for - {{ $item-> job_title }}</h1>
                 {{-- <div class="">
                 <a href="{{route('dashboard.createCompany')}}">
                 <button class="bg-hipe-dark-blue text-md py-2 px-6 text-white rounded-lg shadow-sm outline-none">Create company</button>
@@ -80,9 +80,7 @@
                                 </form>
                             </td>
                         </tr>
-                        {{-- @else
-                
-                @endif --}}
+                       
                     @endforeach
                 @else
                     <tr class="hover:bg-gray-50">

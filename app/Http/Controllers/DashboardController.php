@@ -24,10 +24,10 @@ class DashboardController extends Controller
         //for example:
         $user_joblistings_count = $user->user_joblistings()->count(); //job listing count
 
-       
+
         //job listing applications
         $user_job_listings = $user->user_joblistings()->latest()->get();
-      
+
         $user_job_listing_application_count = 0;
         //this will loop through each user's job listing and count all job listing applications.
         foreach ($user_job_listings as $user_job_listing) {
@@ -44,7 +44,7 @@ class DashboardController extends Controller
             'users.dashboard.home',
             [
                 'listingCount' => $user_joblistings_count,
-               
+
                 'user_job_listing_application_count' => $user_job_listing_application_count,
                 'user_job_applications_count' => $user_job_applications_count,
                 'user_companies' => $user_companies
@@ -84,8 +84,14 @@ class DashboardController extends Controller
         $clickItem = $request->listing_id; //get the Job listing ID of clicked item
 
         $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
-        $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get();//This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
+      //  $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get(); //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
+      $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
+      // $jobApplicationsTest=$user->user_applications()->get();
+        // dd($jobApplicationsTest);
+        // $jobListings= JobListing::find($clickItem);
 
+        //$jobApplications= $jobListings->job_listings()->latest()->get();
+        //.dd( $jobListings);
         return  view('users.dashboard.jobapplicants', [
             'jobListings' => $jobListings,
             'jobApplications' => $jobApplications
@@ -103,7 +109,7 @@ class DashboardController extends Controller
         //if applicant is found then update, e over ride ra ang status
         if ($applicant) {
             $applicant->status = $request->status; //override the status to the new status
-            $applicant->save();// save
+            $applicant->save(); // save
             //redirect back with success message
             return Redirect::back()->with(['success' => 'Applicant status successfully updated']);
         } else {
@@ -122,7 +128,7 @@ class DashboardController extends Controller
     }
 
 
-    
+
     //show settings
     public function  showSettings(Request $request)
     {
@@ -209,7 +215,7 @@ class DashboardController extends Controller
 
         ]);
         $user->user_joblistings()->create($formFields);
-        return redirect('/dashboard/job-listings')->with('success','Created job listing successfully.');
+        return redirect('/dashboard/job-listings')->with('success', 'Created job listing successfully.');
     }
     //show the resume page
     public function showResume(Request $request)
