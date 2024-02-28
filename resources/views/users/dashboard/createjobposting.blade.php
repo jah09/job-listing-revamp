@@ -33,8 +33,8 @@
                         <select name="employment_type" id="employment_type" value="{{ old('employment_type') }}"
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             required>
-                            <option value="full-time">Full Time</option>
-                            <option value="part-time">Part Time</option>
+                            <option value="Full-time">Full Time</option>
+                            <option value="Part-time">Part Time</option>
                         </select>
                         </select>
 
