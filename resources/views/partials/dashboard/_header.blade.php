@@ -11,13 +11,15 @@
             </a>
             <div class="mt-3  flex    ">
                 <div class="px-2 ">
-                    <img class="h-9 w-9 rounded-full object-contain bg-gray-200 object-fill"
-                        src="{{ asset('images/logo.png') }}" alt="" />
+                    @if (auth()->user()->user_detail)
+                        <img class="h-9 w-9 rounded-full object-contain bg-gray-200 object-fill"
+                            src="{{ asset('storage/' . auth()->user()->user_detail->profile_logo) }}" alt="" />
+                    @endif
                 </div>
                 <h1 class="flex justify-end  text-2xl font-semibold mr-4 text-gray-300">Welcome,
                     {{ auth()->user()->user_detail()->exists() ? auth()->user()->user_detail()->first()->first_name : 'Guest' }}!
                 </h1>
-               
+
             </div>
         </div>
 

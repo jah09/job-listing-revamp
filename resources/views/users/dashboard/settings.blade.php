@@ -15,7 +15,7 @@
     <x-card class="">
 
         <div class=" ">
-            <form action="/users/edit" method="POST" class="mt-10 bg-gray-50 shadow-md  rounded  max-w-lg mx-auto p-10">
+            <form action="/users/edit" method="POST" class="mt-10 bg-gray-50 shadow-md  rounded  max-w-lg mx-auto p-10" enctype="multipart/form-data">
                 @csrf
                 <div class="flex items-center flex-col">
                     <h1 class="font-bold text-2xl">UPDATE YOUR PROFILE</h1>
@@ -83,6 +83,19 @@
                         class="border border-gray-200 rounded p-2 w-full" name="tel" />
                     @error('tel')
                         <p class="text-red-500 text-sm font-semibold mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- profilee logo--}}
+                <div class="mb-4">
+                    <label for="profile_logo" class="inline-block text-lg mb-2">
+                        Profile Image
+                    </label>
+                    <input type="file" id="profile_logo" name="profile_logo" value="{{ old('profile_logo') }}"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        required>
+                    @error('profile_logo')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 {{-- Button codes --}}

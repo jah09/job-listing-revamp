@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserDetail extends Model
 {
-    protected $fillable=['user_id','first_name','last_name','age','gender','address','tel',];
     use HasFactory;
+    protected $fillable=['user_id','first_name','last_name','age','gender','address','tel','profile_logo'];
+ 
 
     //relationship
     public function user(){
