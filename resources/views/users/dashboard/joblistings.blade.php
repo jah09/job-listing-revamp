@@ -19,7 +19,7 @@
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+            <tbody class="divide-y divide-gray-200 border-t border-gray-100 w-full">
 
                 @foreach ($user_joblisting as $item)
                     <tr class="hover:bg-gray-100 ">
