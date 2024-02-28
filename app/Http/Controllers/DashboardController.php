@@ -68,12 +68,6 @@ class DashboardController extends Controller
     //show the job listings
     public function showJobListing(Request $request)
     {
-        // $user = $request->user();
-        // $user_companies = $user->user_companies()->empty();
-        // dd($user_companies);
-        // if ($user_companies) {
-        // } else {
-        // }
 
         $user = $request->user();
         $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
@@ -84,14 +78,16 @@ class DashboardController extends Controller
     //show the job listing applicants
     public function showJobListingApplicantsPage(Request $request)
     {
-        /*  */
+        /* Sir approach
+        $joblisting = JobListing::find($request->listing_id);
+        $joblisting_applicants = $joblisting->job_applications()->latest()->get();
+         */
         $user = $request->user();
-        $clickItem = $request->listing_id;
+        $clickItem = $request->listing_id; //get the Job listing ID of clicked item
 
-        $jobListings = $user->user_joblistings()->where('id', $clickItem)->get();
-        $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get();
-        // dd($jobListings->job_title);
-        // dd($jobApplications);
+        $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
+        $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get();//This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
+
         return  view('users.dashboard.jobapplicants', [
             'jobListings' => $jobListings,
             'jobApplications' => $jobApplications
@@ -103,12 +99,13 @@ class DashboardController extends Controller
         $user = $request->user();
         //   dd($request->listing_id);
         // dd($request->applicant_id);
-        $applicantId = $request->applicant_id;
-        $applicant = JobApplication::find($applicantId);
+        $applicantId = $request->applicant_id; // the applicant_id is from the jobapplicant.blade, hidden input in the form
+        $applicant = JobApplication::find($applicantId); //find a specific application base on the applicant ID
 
+        //if applicant is found then update, e over ride ra ang status
         if ($applicant) {
-            $applicant->status = $request->status;
-            $applicant->save();
+            $applicant->status = $request->status; //override the status to the new status
+            $applicant->save();// save
             //redirect back with success message
             return Redirect::back()->with(['success' => 'Applicant status successfully updated']);
         } else {
@@ -122,14 +119,12 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
-        $userJobApplications = $user->user_applications()->latest()->get();
-
-
+        $userJobApplications = $user->user_applications()->latest()->get(); //fetch the application of user
         return  view('users.dashboard.jobapplication', ['userJobApplications' => $userJobApplications]);
     }
 
 
-    // showSettings
+    
     //show settings
     public function  showSettings(Request $request)
     {
@@ -169,7 +164,9 @@ class DashboardController extends Controller
             'website' => ['required'],
         ]);
 
+        //This line checks if the incoming HTTP request has a file input named 'logo_url'. The hasFile method returns true if a file was uploaded via the specified input field.
         if ($request->hasFile('logo_url')) {
+            /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
             $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
         }
 
@@ -185,8 +182,9 @@ class DashboardController extends Controller
     public function showCreateJobListingForm()
     {
 
-        $companies = Company::all();
-        $categories = JobCategory::all();
+        $companies = Company::all(); //retrieve all company record
+        $categories = JobCategory::all(); //retrieve all job category record
+        //check if user already created an company, if dili 0 thn maka show ra sa job listing create form
         if ($companies->count() != 0) {
             return view('users.dashboard.createjobposting', [
                 'companies' => $companies,
