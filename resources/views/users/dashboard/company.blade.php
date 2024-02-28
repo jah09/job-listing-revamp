@@ -22,7 +22,7 @@
                 <tr>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Website</th>
-                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Address</th>
+                    <th scope="col" class="px-2 py-4 font-medium text-gray-900">Address</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Contact</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
                 </tr>
@@ -51,10 +51,25 @@
                                     </span>
                                 </a>
                             </td>
-                            <td class="px-6 py-4">{{ $item->address }}, {{ $item->state }}, {{ $item->postal }}
+                            <td class="px-2 py-4">{{ $item->address }}, {{ $item->state }}, {{ $item->postal }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $item->tel }}
+                            </td>
+                            <td class="py-4">
+                                <div class="flex justify-start gap-4">
+                                    <form id="form_{{$item->id}}" method="POST" action="/company/{{$item->id}}/trash" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="company_id" value="{{$item->id}}">
+                                        <div class="space-x-2">
+                                            <button onclick="confirmDelete('{{$item->name}}', '{{$item->id}}')">
+                                            <a >
+                                                <i class="fa-solid fa-trash text-lg text-red-600"></i>
+                                            </a>
+                                        </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -65,83 +80,32 @@
                         </td>
                     </tr>
                 @endif
-
-
-
-
-                {{-- <tr class="hover:bg-gray-50">
-                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
-                        <div class="relative h-16 w-16">
-                            <img class="h-full w-full rounded-lg object-contain bg-gray-200 p-2 object-center"
-                                src="/images/logo_hipe_black.png" alt="" />
-                        </div>
-                        <div class="text-sm">
-                            <div class="font-medium text-gray-700">Hipe Japan</div>
-                            <div class="text-gray-400">hipe@bpoc.co.jp</div>
-                        </div>
-                    </th>
-                    <td class="px-6 py-4">
-                        <span
-                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                            bpoc.co.jp
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">Roof Deck Unit 1701 FLB Corporate Center, Cebu Business Park, Cebu City, 6000
-                        Cebu</td>
-                    <td class="px-6 py-4">
-                        09565384835
-                    </td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
-                        <div class="relative h-16 w-16">
-                            <img class="h-full w-full rounded-lg object-contain bg-gray-200 p-2 object-center"
-                                src="/images/logo_hipe_black.png" alt="" />
-                        </div>
-                        <div class="text-sm">
-                            <div class="font-medium text-gray-700">Hipe Japan</div>
-                            <div class="text-gray-400">hipe@bpoc.co.jp</div>
-                        </div>
-                    </th>
-                    <td class="px-6 py-4">
-                        <span
-                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                            bpoc.co.jp
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">Roof Deck Unit 1701 FLB Corporate Center, Cebu Business Park, Cebu City, 6000
-                        Cebu</td>
-                    <td class="px-6 py-4">
-                        09565384835
-                    </td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
-                        <div class="relative h-16 w-16">
-                            <img class="h-full w-full rounded-lg object-contain bg-gray-200 p-2 object-center"
-                                src="/images/logo_hipe_black.png" alt="" />
-                        </div>
-                        <div class="text-sm">
-                            <div class="font-medium text-gray-700">Hipe Japan</div>
-                            <div class="text-gray-400">hipe@bpoc.co.jp</div>
-                        </div>
-                    </th>
-                    <td class="px-6 py-4">
-                        <span
-                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                            bpoc.co.jp
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">Roof Deck Unit 1701 FLB Corporate Center, Cebu Business Park, Cebu City, 6000
-                        Cebu</td>
-                    <td class="px-6 py-4">
-                        09565384835
-                    </td>
-                </tr> --}}
             </tbody>
         </table>
     </div>
 </x-dashboard-layout>
+<script>
+    function confirmDelete(companyName, companyID) {
+        Swal.fire({
+            title: 'Move to trash?',
+            html: `
+                <div>
+                    <p>
+                        ${companyName}'s <span class="font-bold text-hipe-yellow">Job Listings</span> and
+                        <span class="font-bold text-hipe-yellow">Job Listing Applications</span> will be disabled.
+                    </p>
+                </div>
+            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var form = document.getElementById(`form_${companyID}`);
+                form.submit();
+            }
+        });
+    }
+</script>

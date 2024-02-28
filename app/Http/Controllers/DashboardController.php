@@ -56,7 +56,7 @@ class DashboardController extends Controller
     public function showCompany(Request $request)
     {
         $user = $request->user();
-        $user_companies = $user->user_companies()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
+        $user_companies = $user->user_companies()->withoutTrashed()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
 
         return  view('users.dashboard.company', [
             'user_companies' => $user_companies
@@ -84,9 +84,9 @@ class DashboardController extends Controller
         $clickItem = $request->listing_id; //get the Job listing ID of clicked item
 
         $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
-      //  $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get(); //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
-      $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
-      // $jobApplicationsTest=$user->user_applications()->get();
+        //  $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get(); //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
+        $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
+        // $jobApplicationsTest=$user->user_applications()->get();
         // dd($jobApplicationsTest);
         // $jobListings= JobListing::find($clickItem);
 
@@ -199,6 +199,17 @@ class DashboardController extends Controller
         }
     }
 
+    //soft delete a company
+    public function companySoftDelete(Request $request)
+    {
+        $clickItem = $request->company_id;
+        $company = Company::find($clickItem);
+
+
+        $company->delete();
+        //  dd($company);
+        return Redirect::back()->with('success', 'Company successfully moved to trash');
+    }
     //create a job posting 
     public function create_jobposting(Request $request)
     {

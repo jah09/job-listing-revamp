@@ -50,7 +50,8 @@ Route::post('/createcompany', [DashboardController::class, 'create_company']);
 Route::post('/createjoblisting', [DashboardController::class, 'create_jobposting']);
 //create a resume then store to db
 Route::post('/store-resume', [DashboardController::class, 'storeResume'])->name('storeResume');
-
+ //soft delete a company
+ Route::post('/company/{company_id}/trash',[DashboardController::class,'companySoftDelete']);
 //dashboard route but ge group
 Route::group(
     [
@@ -63,7 +64,7 @@ Route::group(
 
         Route::get('company', [DashboardController::class, 'showCompany'])->name('.company'); //show the company UI/list
         Route::get('company/create', [DashboardController::class, 'showCreateCompanyForm'])->name('.createCompany'); //show the create company form
-
+       
         Route::get('job-listings', [DashboardController::class, 'showJobListing'])->name('.joblistings'); //show the job listing UI/page
         Route::get('/job-listings/job-post', [DashboardController::class, 'showCreateJobListingForm'])->name('.createJobListing'); //show the create job listing form
        
