@@ -22,18 +22,16 @@ class DashboardController extends Controller
         $user = $request->user(); //this will return authenticated user data
         //then we can use the user's model to access its eloquent relationship
         //for example:
-        $user_joblistings_count = $user->user_joblistings()->count(); //job listing
+        $user_joblistings_count = $user->user_joblistings()->count(); //job listing count
 
-        //calculate the percentage
-        $totalCount = JobListing::count(); // This queries the total count of job listings from the database
-        $percentage = $totalCount > 0 ? ($user_joblistings_count / $totalCount) * 100 : 0; // Calculate the percentage if totalCount is greater than 0
-
+       
         //job listing applications
-        $user_job_listings = $user->user_joblistings();
+        $user_job_listings = $user->user_joblistings()->latest()->get();
+      
         $user_job_listing_application_count = 0;
         //this will loop through each user's job listing and count all job listing applications.
         foreach ($user_job_listings as $user_job_listing) {
-            $user_job_listing_application_count += $user_job_listing->job_listing_applications()->count();
+            $user_job_listing_application_count += $user_job_listing->job_listings()->count();
         }
 
         //job application
@@ -46,7 +44,7 @@ class DashboardController extends Controller
             'users.dashboard.home',
             [
                 'listingCount' => $user_joblistings_count,
-                'listingPercentage' => $percentage,
+               
                 'user_job_listing_application_count' => $user_job_listing_application_count,
                 'user_job_applications_count' => $user_job_applications_count,
                 'user_companies' => $user_companies
@@ -211,7 +209,7 @@ class DashboardController extends Controller
 
         ]);
         $user->user_joblistings()->create($formFields);
-        return redirect('/dashboard/job-listings');
+        return redirect('/dashboard/job-listings')->with('success','Created job listing successfully.');
     }
     //show the resume page
     public function showResume(Request $request)
