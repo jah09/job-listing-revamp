@@ -11,7 +11,7 @@
 
 
     <div class="max-w-7xl container mx-auto hidden lg:block z-10 text-start relative  ">
-        <span class="absolute text-xs font-semibold text-white pt-4 ps-4">YOURSURNAME'S</span>
+        <span class="absolute text-xs font-semibold text-white pt-4 ps-4">SUHOT'S</span>
         <h1 class="text-[84px] font-bold uppercase text-[#ffa903]">
             JOB<span class="text-[#229fe7] font-semibold">LISTING</span>
         </h1>
