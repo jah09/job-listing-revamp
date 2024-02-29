@@ -99,6 +99,7 @@ class UserController extends Controller
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
 
+   
     //logout the user
     public function logout(Request $request)
     {
@@ -133,10 +134,11 @@ class UserController extends Controller
             'tel' => ['required', 'min:3'],
             'profile_logo'=>['required']
         ]);
-       
+       // $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
         if ($request->hasFile('profile_logo')) {
             /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
-            $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
+          //  $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
+          $formFields['profile_logo'] = $request->file('profile_logo')->storePublicly('public/images/profile');
         }
         $user->user_detail()->updateOrCreate(
             ['user_id' => $user->id], // Search criteria
