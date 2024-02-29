@@ -11,9 +11,16 @@
             </a>
             <div class="mt-3  flex    ">
                 <div class="px-2 ">
-                    @if (auth()->user()->user_detail)
+                    {{-- @if (auth()->user()->user_detail)
                         <img class="h-9 w-9 rounded-full object-contain bg-gray-200 object-fill"
-                            src="{{ asset('storage/' . auth()->user()->user_detail->profile_logo) }}" alt="" />
+                            src="{{  auth()->user()->user_detail->image_url() }}" alt="" />
+                    
+                    @endif --}}
+                    @if (auth()->user()->user_detail)
+                    <img class="h-9 w-9 rounded-full object-contain bg-gray-200 object-fill"
+                    src="{{  auth()->user()->user_detail->image_url() }}" alt="" />
+                    @else
+                        ''
                     @endif
                 </div>
                 <h1 class="flex justify-end  text-2xl font-semibold mr-4 text-gray-300">Welcome,

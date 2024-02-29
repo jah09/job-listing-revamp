@@ -1,33 +1,27 @@
-<script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>    
-</script>
-
 <div class="min-h-screen" style="background: url('images/bg_footer.svg')">
-    <div class="py-16 sm:py-24 lg:py-32">
-        <div class="mx-auto flex max-w-7xl justify-between items-center relative ">
-            <div class="mt-36 absolute top-0 right-0 flex justify-start items-center w-3/5 h-full ">
+    <div class="bg-transparent py-16 sm:py-24 lg:py-32">
+        <div class="mx-auto flex max-w-7xl justify-between items-center relative">
+            <div class="mt-36 absolute top-0 right-0 flex justify-start items-center w-3/5 h-full">
                 <img class="w-[248px]" src="images/footer-object.gif" alt="">
             </div>
-            <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7 ">
+            <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
                 <h2 class="inline sm:block lg:inline xl:block">Want news and updates?</h2>
                 <p class="inline sm:block lg:inline xl:block">Sign up for our newsletter.</p>
             </div>
-           
-            <form class="w-full max-w-md lg:col-span-5 lg:pt-2 " method="POST" action="/subscribe">
-                @csrf
-                <div class="flex gap-x-4 ">
-                <label for="email" class="sr-only">Email address</label>
-                <input id="email" name="email" type="email" autocomplete="email" required class="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-white/75 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6 outline-none" placeholder="Enter your email " value="{{old('email')}}">
-
+            <form class="w-full max-w-md lg:col-span-5 lg:pt-2">
+                <div class="flex gap-x-4">
+                <label for="email-address" class="sr-only">Email address</label>
+                <input id="email-address" name="email" type="email" autocomplete="email" required class="min-w-0 flex-auto rounded-md border-0 bg-white/10 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-white/75 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6" placeholder="Enter your email">
                 <button type="submit" class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-[#229fe7] shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Subscribe</button>
                 </div>
                 <p class="mt-4 text-sm leading-6 text-gray-300">We care about your data. Read our <a href="#" class="font-semibold text-white hover:text-indigo-50">privacy&nbsp;policy</a>.</p>
             </form>
         </div>
     </div>
-    <footer class="w-full text-gray-700 ">
-        <div class="max-w-7xl container mx-auto flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap ">
-            <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left  ">
+    <footer class="w-full text-gray-700 bg-transparent">
+        <div
+            class="max-w-7xl container mx-auto flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
+            <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
                 <a class="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
                     <img class="w-[100px]" src="images/img_logo.svg" alt="">
                 </a>
@@ -67,7 +61,7 @@
                     </span>
                 </div>
             </div>
-            <div class="flex  flex-wrap flex-grow mt-10 -mb-10 text-center md:pl-20 md:mt-0 md:text-left ">
+            <div class="flex flex-wrap flex-grow mt-10 -mb-10 text-center md:pl-20 md:mt-0 md:text-left">
                 <div class="w-full px-4 lg:w-1/4 md:w-1/2">
                     <h2 class="mb-3 text-sm font-medium tracking-widest text-[#229fe7] uppercase title-font">About</h2>
                     <nav class="mb-10 list-none">
@@ -128,7 +122,7 @@
             </div>
         </div>
         <div class="bg-transparent">
-            <div class="container px-5 py-4 mx-auto ">
+            <div class="container px-5 py-4 mx-auto">
                 <p class="text-sm text-gray-300 capitalize xl:text-center">© 2024 All rights reserved</p>
             </div>
         </div>

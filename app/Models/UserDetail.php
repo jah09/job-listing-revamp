@@ -15,4 +15,17 @@ class UserDetail extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function image_url()
+    {
+        // Check if logo_url is set
+        if ($this->profile_logo) {
+            //  return Storage::disk('s3')->url($this->logo_url);
+            return env('AWS_URL').$this->profile_logo;
+        }
+        return null;
+    
+     
+    }
+
 }

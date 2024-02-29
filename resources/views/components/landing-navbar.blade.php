@@ -36,30 +36,34 @@
     <div class="px-[40px] pt-[24px] z-40 absolute top-0 left-0 flex justify-between items-start w-full h-full ">
         <img class="w-[100px]" src="images/img_logo.svg" alt="">
         <div class="space-x-6 text-white font-semibold ">
-            <a href="/" class="hover:text-[#229fe7]">Home</a>
-            <a href="/about" class="hover:text-[#229fe7]">About</a>
+            @auth
+                <a href="/dashboard/home" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Home</a>
+            @else
+                <a href="/" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Home</a>
+            @endauth
+            <a href="/about" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">About</a>
             <form action="/contact-us" method="GET" class="inline">
                 @csrf
-                <button type="submit" class="hover:text-[#229fe7]">Contact</button>
-                {{-- <a href="" class="hover:text-[#229fe7]">Contact</a> --}}
+                <button type="submit" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Contact</button>
+                 
             </form>
-          
+
             @auth
                 <form class="inline" method="POST" action="/logout">
                     @csrf
-                    <button type="submit" class="hover:text-[#229fe7]">
+                    <button type="submit" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">
                         Logout
                     </button>
                 </form>
             @else
-                <a href="/login" class="hover:text-[#229fe7]">Login</a>
+                <a href="/login" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Login</a>
             @endauth
         </div>
     </div>
     <main class="">
         {{ $slot }}
     </main>
-<x-flash-message/>
+    <x-flash-message />
 </body>
 
 

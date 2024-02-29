@@ -54,7 +54,7 @@
                     @if ($user_companies->count() > 0)
                         @foreach ($user_companies as $item)
                             <li class="flex items-center p-2 ">
-                                <img src="{{ asset('storage/' . $item->logo_url) }}" alt="logo"
+                                <img src="{{$item->image_url() }}" alt="logo"
                                     class="w-10 h-10 rounded-full">
                                 <span class="mx-2">
                                     <h4 class="font-semibold">{{ $item->name }}</h4>

@@ -144,6 +144,15 @@ class DashboardController extends Controller
         ]);
     }
 
+     //show the profile page
+     public function showProfileImage(Request $request){
+        $user = $request->user(); //this will return authenticated user data
+
+        $userDetails = $user->user_detail()->first();
+        //.dd($userDetails);
+        return view('users.dashboard.profilePage',[  'userDetails' => $userDetails]);
+    }
+
     //show the company form
     public function showCreateCompanyForm()
     {
@@ -171,9 +180,14 @@ class DashboardController extends Controller
         //This line checks if the incoming HTTP request has a file input named 'logo_url'. The hasFile method returns true if a file was uploaded via the specified input field.
         if ($request->hasFile('logo_url')) {
             /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
-            $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
+            
+            //store locally
+            // $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
+            
+            //store in 
+            $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
         }
-
+        // dd($formField['logo_url']);
 
         // Company::create($formFields);
         $user->user_companies()->create($formFields);

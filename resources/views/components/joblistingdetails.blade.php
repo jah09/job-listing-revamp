@@ -54,14 +54,14 @@
 
 
                     @if ($user_resume->count() > 0 && auth()->user()->id != $listing->user_id)
-                        <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none"
+                        <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300"
                             onclick="openModal()">
-                            <i class="fa-solid fa-envelope px-2 animate-pulse"></i>
+                            <i class="fa-solid fa-envelope px-2 animate-pulse "></i>
                             Apply now
                         </button>
                     @else
                         <a href="/dashboard/my-resume">
-                            <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none">
+                            <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300">
                                 <i class="fa-solid fa-envelope px-2 animate-pulse"></i>
                                 Apply now
                             </button>
@@ -69,7 +69,7 @@
                     @endif
                 @else
                     <a href="/login">
-                        <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none">
+                        <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300">
                             <i class="fa-solid fa-envelope px-2 animate-pulse"></i>
                             Apply now
                         </button>
