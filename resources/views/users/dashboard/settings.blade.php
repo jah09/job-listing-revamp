@@ -102,7 +102,7 @@
                 <div class="mb-6 flex justify-center">
                     <button type="submit"
                         class="bg-gray-50 font-semibold   rounded py-2 px-4 border border-red-600 text-black hover:bg-red-600 hover:text-white">
-                        Update profile
+                        Save Changes
                         <i class="fa fa-sign-in ml-2" aria-hidden="true"></i>
                     </button>
                 </div>
