@@ -34,7 +34,7 @@
                             <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
                                 <div class="relative h-16 w-16">
                                     <img class="h-full w-full rounded-lg object-contain bg-gray-200 object-fill"
-                                        src="{{ asset('storage/' . $item->logo_url) }}" alt="" />
+                                        src="{{ $item->image_url() }}" alt="" />
                                 </div>
                                 <div class="text-sm">
                                     <div class="font-medium text-gray-700">{{ $item->name }}</div>

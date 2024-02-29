@@ -31,6 +31,10 @@ class UserController extends Controller
         return view('contacts');
     }
 
+    //show the about page
+    public function showAboutPage(){
+        return view('about');
+    }
     //insert to contact db
     public function storeContactUs(Request $request)
     {

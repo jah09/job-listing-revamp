@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,6 +20,26 @@ class Company extends Model
     public function job_listings(){
         return $this->hasMany(JobListing::class);
     }
-
+    public function image_url()
+    {
+        // Check if logo_url is set
+        if ($this->logo_url) {
+            //  return Storage::disk('s3')->url($this->logo_url);
+            return env('AWS_URL').$this->logo_url;
+        }
+        return null;
+        // if ($this->logo_url) {
+        //     // Check if the file is publicly accessible
+        //     if (Storage::disk('s3')->exists($this->logo_url)) {
+        //         // If the file is publicly accessible, generate a public URL
+        //         return Storage::disks('s3')->url($this->logo_url);
+        //     } else {
+        //         // If the file is private, generate a temporary URL
+        //         return Storage::disks('s3')->temporaryUrl($this->logo_url, now()->addMinutes(30));
+        //     }
+        // }
+    
+     
+    }
 
 }
