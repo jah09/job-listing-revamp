@@ -26,7 +26,7 @@
                             <th class="flex gap-3 px-6 py-4 font-normal text-gray-900 items-center">
                                 <div class="relative h-16 w-16">
                                     <img class="h-full w-full rounded-lg object-contain bg-gray-200 p-2 object-center"
-                                        src="{{ asset('storage/' . $item->company->logo_url) }}" alt="" />
+                                        src="{{  $item->company->image_url() }}" alt="" />
                                 </div>
                                 <a href="/dashboard/job-listings/{{ $item->id }}/applicants">
                                     <div class="text-sm">

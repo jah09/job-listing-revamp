@@ -13,7 +13,7 @@
             class=" flex  max-w-[30rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg    ">
             <div
                 class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 hover:skew-y-6">
-                <img  src="{{ asset('storage/' . $item->company->logo_url) }}" alt=""
+                <img  src="{{$item->company->image_url() }}" alt=""
                     alt="ui/ux review check" class="object-fit w-64 h-64 "/>
                 <div
                     class="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60">
