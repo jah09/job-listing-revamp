@@ -21,7 +21,7 @@ use App\Http\Controllers\UserController;
 
 //show the landing page
 Route::get('/', [UserController::class, 'show_landing_page']);
-
+Route::get('/about',[UserController::class,'showAboutPage']);
 Route::get('/contact-us',[UserController::class,'showContactPage']);//show the contact us page
 
 Route::post('/contact-us-submit',[UserCOntroller::class,'storeContactUs']);
