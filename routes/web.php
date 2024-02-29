@@ -33,6 +33,7 @@ Route::post('/users', [UserController::class, 'store']);  //create new user/stor
 Route::post('/users/authenticate', [UserController::class, 'authenticate']); //Log In User
 Route::post('/logout', [UserController::class, 'logout']);//logout the user logout
 Route::post('/users/edit', [UserController::class, 'update_settings']);//update the user
+
 Route::get('/users/change-password',[UserController::class, 'showChangePasswordPage']); //
 
 //dynamic featured/job listing then if clicked, user will be redirected to job details page
@@ -75,7 +76,7 @@ Route::group(
         Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
 
         Route::get('settings', [DashboardController::class, 'showSettings'])->name('.settings'); //show the UI of profile settings
-
+        Route::get('profilepage', [DashboardController::class, 'showProfileImage'])->name('.profile_page'); //show the profile page
         Route::get('my-resume', [DashboardController::class, 'showResume'])->name('.resume'); //show the resume page/UI
         Route::get('create-resume', [DashboardController::class, 'showResumeForm'])->name('.showresumeform');
     }

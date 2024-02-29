@@ -144,6 +144,15 @@ class DashboardController extends Controller
         ]);
     }
 
+     //show the profile page
+     public function showProfileImage(Request $request){
+        $user = $request->user(); //this will return authenticated user data
+
+        $userDetails = $user->user_detail()->first();
+        //.dd($userDetails);
+        return view('users.dashboard.profilePage',[  'userDetails' => $userDetails]);
+    }
+
     //show the company form
     public function showCreateCompanyForm()
     {

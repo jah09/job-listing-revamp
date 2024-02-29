@@ -55,10 +55,10 @@
                     </a>
                 </li> --}}
                 <li
-                    class="{{ Request::is('dashboard/settings') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
-                    <a href="{{ route('dashboard.settings') }}" class="">
+                    class="{{ Request::is('dashboard/profilepage') || Request::is('dashboard/settings') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
+                    <a href="{{ route('dashboard.profile_page') }}" class="">
                         <i class="ps-2.5 fa-solid fa-gear"></i>
-                        <span class="ml-3 flex-1 whitespace-nowrap">Settings</span>
+                        <span class="ml-3 flex-1 whitespace-nowrap">Profile</span>
                     </a>
                 </li>
                 <li class="hover:bg-hipe-blue hover:rounded-md p-2">
