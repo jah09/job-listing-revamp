@@ -31,7 +31,7 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 Route::get('/register', [UserController::class, 'register']); //show signup form
 Route::post('/users', [UserController::class, 'store']);  //create new user/store to db
 Route::post('/users/authenticate', [UserController::class, 'authenticate']); //Log In User
-Route::post('/logout', [UserController::class, 'logout']);//logout the user logout
+Route::post('/logout', [UserController::class, 'logout'])->name('dashboard.logout');//logout the user logout
 Route::post('/users/edit', [UserController::class, 'update_settings']);//update the user
 
 Route::get('/users/change-password',[UserController::class, 'showChangePasswordPage']); //
@@ -43,6 +43,14 @@ Route::post('/create-job-application', [UserController::class, 'createJobApplica
 
 //subscribe function
 Route::post('/subscribe', [UserController::class, 'createSubscription']);
+
+Route::get('verify-notice', [UserController::class, 'verify_notice'])->name('verification.notice');
+
+//for posting resend verification email
+Route::post('email/verification-notification', [UserController::class, 'send_verification_email'])->name('verification.send');
+
+//for processing email verification 
+Route::get('verify-email/{id}/{hash}', [UserController::class, 'verify_email'])->middleware(['signed'])->name('verification.verify');
 
 
 //create new company/inser to db
@@ -58,7 +66,7 @@ Route::group(
     [
         'as'        => 'dashboard', // Route group name
         'prefix'    => 'dashboard', // Prefix for all routes within the group
-        'middleware' => 'auth',  // Middleware applied to all routes within the group
+        'middleware' => ['auth','verified']  // Middleware applied to all routes within the group
     ],
     function () {
         Route::get('home', [DashboardController::class, 'showDashboard'])->name('.home');

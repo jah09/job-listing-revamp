@@ -9,7 +9,7 @@
                       
                
                     <div class="w-full h-[250px]">
-                        <img src="{{asset('images/s2.jpg')}}" class="w-full h-full rounded-tl-lg rounded-tr-lg object-cover">
+                        <img src="{{asset('images/s2.jpg')}}" class="w-full h-full rounded-tl-lg rounded-tr-lg object-cover object-center "  style="object-position: 50% 55% ;">
                     </div>
                     <div class="flex flex-col items-center -mt-20">
                         <img   src="{{  auth()->user()->user_detail->image_url() }}" class="w-40 h-40 border-4 border-white rounded-full">

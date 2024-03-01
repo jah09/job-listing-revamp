@@ -14,8 +14,11 @@ use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log as log;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class UserController extends Controller
 {
@@ -32,7 +35,8 @@ class UserController extends Controller
     }
 
     //show the about page
-    public function showAboutPage(){
+    public function showAboutPage()
+    {
         return view('about');
     }
     //insert to contact db
@@ -44,11 +48,10 @@ class UserController extends Controller
             'subject' => ['required'],
             'message' => ['required']
         ]);
-      //  $formFields['subscribe_date'] = Carbon::now();
+        //  $formFields['subscribe_date'] = Carbon::now();
         Contact::create($formFields);
-        
+
         return redirect('/')->with('success', 'Contact Successfully');
-    
     }
 
     //return the view register form
@@ -74,6 +77,7 @@ class UserController extends Controller
         /*It uses Laravel's authentication system, which provides a global helper function auth() to access authentication services.
         The login method is called on the authentication service, and it takes the user object as an argument. 
         */
+        event(new Registered($user)); //it will make class User extends Authenticatable   implements MustVerifyEmail triggered
         auth()->login($user);
 
         // return redirect('/login')->with('message', 'Account successfully created.');
@@ -99,7 +103,7 @@ class UserController extends Controller
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
 
-   
+
     //logout the user
     public function logout(Request $request)
     {
@@ -132,23 +136,19 @@ class UserController extends Controller
             'gender' => ['required', 'min:3'],
             'address' => ['required', 'min:3'],
             'tel' => ['required', 'min:3'],
-            'profile_logo'=>['required']
+            'profile_logo' => ['required']
         ]);
-       // $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
+        // $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
         if ($request->hasFile('profile_logo')) {
             /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
-          //  $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
-          $formFields['profile_logo'] = $request->file('profile_logo')->storePublicly('public/images/profile');
+            //  $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
+            $formFields['profile_logo'] = $request->file('profile_logo')->storePublicly('public/images/profile');
         }
         $user->user_detail()->updateOrCreate(
             ['user_id' => $user->id], // Search criteria
             $formFields // Values to update or create
         );
-        return redirect(route('dashboard.settings'))->with('success','Profile updated successfully.');
-
-
-      
-        
+        return redirect(route('dashboard.settings'))->with('success', 'Profile updated successfully.');
     }
 
 
@@ -224,5 +224,44 @@ class UserController extends Controller
         $formFields['subscribe_date'] = Carbon::now();
         Newsletter::create($formFields);
         return redirect('/')->with('success', 'Subscribe Successfully');
+    }
+
+
+    public function verify_notice(Request $request)
+    {
+        $user = $request->user();
+        //check if user is alredy verified,
+        if ($user->hasVerifiedEmail()) {
+            // if true 
+            return redirect('/dashboard/home')->with('success', 'You are already verified');
+        } else {
+            return view('users.verification.verify-email');
+        }
+    }
+
+    //for posting resend verification email
+    public function send_verification_email(Request $request)
+    {
+        $user = $request->user();
+        if ($user->hasVerifiedEmail()) {
+            return redirect('/dashboard/home')->with('success', 'Users verified successfully');
+        } else {
+            $user->sendEmailVerificationNotification();
+            return view('users.verification.verify-email');
+        }
+    }
+    //for processing email verification 
+    public function verify_email(EmailVerificationRequest $request)
+    {
+        $user = $request->user();
+        if ($user->hasVerifiedEmail()) {
+            return redirect('/dashboard/home')->with('success', 'Users verified successfully');
+        }
+        if ($user->markEmailAsVerified()) {
+            //return view('users.verification.verify-email');
+            //call the event Verified to finish the user verification
+            event(new Verified($request->user()));
+            return redirect('/dashboard/home')->with('success', 'Users verified successfully');
+        }
     }
 }

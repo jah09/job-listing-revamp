@@ -50,7 +50,7 @@
                         <div class="mt-20">
                             <p class="font-semibold">
                                Already have an account?
-                                <a href="/register">
+                                <a href="/login">
                                     <span class="text-[#229fe7]">Login now.</span></a>
                             </p>
                         </div>

@@ -19,7 +19,7 @@
                 extend: {
                     colors: {
                         'hipe-blue': '#229fe7',
-                        'hipe-dark-blue': '#023047'
+                        'hipe-dark-blue': '#023047',
                         'hipe-yellow': '#ffa903'
                     },
                 },
