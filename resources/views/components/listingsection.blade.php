@@ -4,7 +4,7 @@
 
     </div>
     <div class="flex justify-center  ">
-        <div class="grid grid-cols-4 gap-4 p-4">
+        <div class="grid {{ count($jobListing) === 1   ? 'justify-center' : 'grid-cols-4' }} gap-4 p-4">
 
 
            
