@@ -12,7 +12,7 @@
             <div class="">
                 <a href="{{ route('dashboard.createCompany') }}">
                     <button
-                        class="bg-hipe-dark-blue text-md py-2 px-6 text-white rounded-lg shadow-sm outline-none">Create
+                        class="bg-hipe-dark-blue text-md py-2 px-6 text-white rounded-lg shadow-sm outline-none hover:shadow-hipe-dark-blue-500/40">Create
                         company</button>
                 </a>
             </div>
