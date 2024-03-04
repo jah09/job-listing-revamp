@@ -18,6 +18,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log as log;
+use App\Notifications\JobListingApplicationNotification;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class UserController extends Controller
@@ -121,6 +122,21 @@ class UserController extends Controller
         return view('users.forgotpassword');
     }
 
+    //change password 
+    public function updatePassword(Request $request)
+    {
+        $user = $request->user();
+        $formfields = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => 'required'
+        ]);
+
+        $user->user_detail()->updateOrCreate(
+            ['user_id' => $user->id], // Search criteria
+            // Values to update or create  $formFields 
+        );
+        return redirect(route('dashboard.settings'))->with('success', 'Profile updated successfully.');
+    }
 
     //update the user settings
     public function update_settings(Request $request)
@@ -155,7 +171,11 @@ class UserController extends Controller
     //show the landing page
     public function show_landing_page()
     {
-        $user_joblisting = JobListing::all(); //fetch the job listing data from database then pass to landing page by jobListing variable
+        //old logic
+        //  $user_joblisting = JobListing::all(); //fetch the job listing data from database then pass to landing page by jobListing variable
+        // new logic, will not return job listing if company has soft deleted
+        $user_joblisting = JobListing::whereHas('company')->get();
+
         return view(
             'landing',
             ['jobListing' => $user_joblisting]
@@ -201,13 +221,20 @@ class UserController extends Controller
         ]);
 
 
-        $job_application = $user->user_applications()
+        $existing_job_application = $user->user_applications()
             ->where('job_listing_id', $formFields['job_listing_id'])
             ->first();
 
-        if (!$job_application) {
-            $job_application = new JobApplication($formFields);
-            $user->user_applications()->save($job_application);
+        if (!$existing_job_application) {
+            // $existing_job_application = new JobApplication($formFields);
+            //  $user->user_applications()->save($existing_job_application);
+            $job_application = $user->user_applications()->create($formFields);
+            
+            $job_listing_owner = $job_application->job_listing->user;
+
+            //pass the params to notification
+            $notification = new JobListingApplicationNotification($user->email, $job_application->job_listing);
+            $job_listing_owner->notify($notification);
             return redirect('/dashboard/home')->with('success', 'Application form submitted');
         } else {
             return redirect('/dashboard/my-resume')->with('error', 'You already submitted an application form for this job listing');
