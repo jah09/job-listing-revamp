@@ -20,14 +20,14 @@
                     </a>
                 </li>
                 <li
-                    class="{{ Request::is('dashboard/company') || Request::is('dashboard/company/create') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
+                    class="{{ Request::is('dashboard/company*')  ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
                     <a href="{{ route('dashboard.company') }}" class="">
                         <i class="ps-2.5 fa-solid fa-building"></i>
                         <span class="ml-3 flex-1 whitespace-nowrap">Company</span>
                     </a>
                 </li>
                 <li
-                    class="{{ Request::is('dashboard/job-listings*')||Request::is('dashboard/job-listings/job-post') ||Request::is ('dashboard/job-listings/{listing_id}/applicants') ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
+                    class="{{ Request::is('dashboard/job-listings*')  ? 'bg-hipe-blue rounded-md text-white' : '' }} hover:bg-hipe-blue hover:rounded-md p-2 hover:text-white">
                     <a href="{{ route('dashboard.joblistings') }}" class="">
                         <i class="ps-2.5 fa-solid fa-user-doctor"></i>
                         <span class="ml-3 flex-1 whitespace-nowrap">Job Listings</span>
