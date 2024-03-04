@@ -21,24 +21,24 @@ use App\Http\Controllers\UserController;
 
 //show the landing page
 Route::get('/', [UserController::class, 'show_landing_page']);
-Route::get('/about',[UserController::class,'showAboutPage']);
-Route::get('/contact-us',[UserController::class,'showContactPage']);//show the contact us page
+Route::get('/about', [UserController::class, 'showAboutPage'])->name('about');
+Route::get('/contact-us', [UserController::class, 'showContactPage']); //show the contact us page
 
-Route::post('/contact-us-submit',[UserCOntroller::class,'storeContactUs']);
+Route::post('/contact-us-submit', [UserCOntroller::class, 'storeContactUs']);
 
 //user codes
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');  //show login form
 Route::get('/register', [UserController::class, 'register']); //show signup form
 Route::post('/users', [UserController::class, 'store']);  //create new user/store to db
 Route::post('/users/authenticate', [UserController::class, 'authenticate']); //Log In User
-Route::post('/logout', [UserController::class, 'logout'])->name('dashboard.logout');//logout the user logout
-Route::post('/users/edit', [UserController::class, 'update_settings']);//update the user
+Route::post('/logout', [UserController::class, 'logout'])->name('dashboard.logout'); //logout the user logout
+Route::post('/users/edit', [UserController::class, 'update_settings']); //update the user
 
-Route::get('/users/change-password',[UserController::class, 'showChangePasswordPage']); //
-
+Route::get('/users/change-password', [UserController::class, 'showChangePasswordPage']); //
+Route::get('/users/submit-change-password',[UserController::class, 'updatePassword']);
 //dynamic featured/job listing then if clicked, user will be redirected to job details page
-Route::get('/job-details/{jobdetails}', [UserController::class, 'showJobListingDetails']);//navigate to job listing details
-Route::post('/create-job-application', [UserController::class, 'createJobApplication']);// insert  data to job application database
+Route::get('/job-details/{jobdetails}', [UserController::class, 'showJobListingDetails']); //navigate to job listing details
+Route::post('/create-job-application', [UserController::class, 'createJobApplication']); // insert  data to job application database
 
 
 //subscribe function
@@ -59,27 +59,27 @@ Route::post('/createcompany', [DashboardController::class, 'create_company']);
 Route::post('/createjoblisting', [DashboardController::class, 'create_jobposting']);
 //create a resume then store to db
 Route::post('/store-resume', [DashboardController::class, 'storeResume'])->name('storeResume');
- //soft delete a company
- Route::post('/company/{company_id}/trash',[DashboardController::class,'companySoftDelete']);
+//soft delete a company
+Route::post('/company/{company_id}/trash', [DashboardController::class, 'companySoftDelete']);
 //dashboard route but ge group
 Route::group(
     [
         'as'        => 'dashboard', // Route group name
         'prefix'    => 'dashboard', // Prefix for all routes within the group
-        'middleware' => ['auth','verified']  // Middleware applied to all routes within the group
+        'middleware' => ['auth', 'verified']  // Middleware applied to all routes within the group
     ],
     function () {
         Route::get('home', [DashboardController::class, 'showDashboard'])->name('.home');
 
         Route::get('company', [DashboardController::class, 'showCompany'])->name('.company'); //show the company UI/list
         Route::get('company/create', [DashboardController::class, 'showCreateCompanyForm'])->name('.createCompany'); //show the create company form
-       
+
         Route::get('job-listings', [DashboardController::class, 'showJobListing'])->name('.joblistings'); //show the job listing UI/page
         Route::get('/job-listings/job-post', [DashboardController::class, 'showCreateJobListingForm'])->name('.createJobListing'); //show the create job listing form
-       
-        Route::get('/job-listings/{listing_id}/applicants',[DashboardController::class,'showJobListingApplicantsPage']); //show the job listing applicants page
-        
-        Route::post('/job-listings/{listing_id}/applicant/{applicant_id}/update-status',[DashboardController::class,'updateApplicantStatus']); // update the applicants status
+
+        Route::get('/job-listings/{listing_id}/applicants', [DashboardController::class, 'showJobListingApplicantsPage']); //show the job listing applicants page
+
+        Route::post('/job-listings/{listing_id}/applicant/{applicant_id}/update-status', [DashboardController::class, 'updateApplicantStatus']); // update the applicants status
 
         Route::get('job-applications', [DashboardController::class, 'showJobApplication'])->name('.jobapplications');
 

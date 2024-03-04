@@ -41,7 +41,7 @@
             @else
                 <a href="/" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Home</a>
             @endauth
-            <a href="/about" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">About</a>
+            <a href="{{ route('about'). '#about-page' }}" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">About</a>
             <form action="/contact-us" method="GET" class="inline">
                 @csrf
                 <button type="submit" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Contact</button>
