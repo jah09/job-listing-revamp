@@ -88,14 +88,10 @@ class DashboardController extends Controller
         $clickItem = $request->listing_id; //get the Job listing ID of clicked item
 
         $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
-        //  $jobApplications = $user->user_applications()->where('job_listing_id', $clickItem)->get(); //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
+ 
+        //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
         $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
-        // $jobApplicationsTest=$user->user_applications()->get();
-        // dd($jobApplicationsTest);
-        // $jobListings= JobListing::find($clickItem);
 
-        //$jobApplications= $jobListings->job_listings()->latest()->get();
-        //.dd( $jobListings);
         return  view('users.dashboard.jobapplicants', [
             'jobListings' => $jobListings,
             'jobApplications' => $jobApplications
@@ -244,6 +240,7 @@ class DashboardController extends Controller
             return Redirect::back()->with('success', 'Company successfully moved to trash');
         }
     }
+    
     //create a job posting 
     public function create_jobposting(Request $request)
     {
