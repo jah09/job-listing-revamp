@@ -25,10 +25,10 @@ class JobListing extends Model
 
     }
 
-    public function job_listing()
-    {
-        return $this->belongsTo(Company::class);
-    }
+    // public function job_listing()
+    // {
+    //     return $this->belongsTo(Company::class);
+    // }
 
     public function user_jobListing()
     {
