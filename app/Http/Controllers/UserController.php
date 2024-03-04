@@ -229,9 +229,9 @@ class UserController extends Controller
             // $existing_job_application = new JobApplication($formFields);
             //  $user->user_applications()->save($existing_job_application);
             $job_application = $user->user_applications()->create($formFields);
-            
-            $job_listing_owner = $job_application->job_listing->user;
 
+            $job_listing_owner = $job_application->job_listing->user;
+            
             //pass the params to notification
             $notification = new JobListingApplicationNotification($user->email, $job_application->job_listing);
             $job_listing_owner->notify($notification);
