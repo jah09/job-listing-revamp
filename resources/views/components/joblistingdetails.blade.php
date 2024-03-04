@@ -63,7 +63,8 @@
             <h1 class="text-1xl font-bold">Job Description</h1>
             <p class="text-2xl">{{ $listing->description }}</p>
 
-            <div>
+            <div class="flex justify-center">
+                <div class="flex-1"> 
                 @auth
 
 
@@ -93,7 +94,8 @@
                     </a>
 
                 @endauth
-
+            </div>
+                {{-- <div class="  py-4">Posted by:{{$listing->user->email}}</div> --}}
             </div>
 
 
