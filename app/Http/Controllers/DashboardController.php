@@ -11,6 +11,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Redirect;
+use App\Notifications\ApplicantStatusNotification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DashboardController extends Controller
 {
@@ -68,8 +70,10 @@ class DashboardController extends Controller
     {
 
         $user = $request->user();
-        $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
-
+        //old logic
+        //  $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
+        // new logic, will not return job listing if company has soft deleted
+        $user_joblisting = $user->user_joblistings()->whereHas('company')->latest()->get();
         return  view('users.dashboard.joblistings', ['user_joblisting' => $user_joblisting]);
     }
 
@@ -101,8 +105,7 @@ class DashboardController extends Controller
     public function updateApplicantStatus(Request $request)
     {
         $user = $request->user();
-        //   dd($request->listing_id);
-        // dd($request->applicant_id);
+
         $applicantId = $request->applicant_id; // the applicant_id is from the jobapplicant.blade, hidden input in the form
         $applicant = JobApplication::find($applicantId); //find a specific application base on the applicant ID
 
@@ -110,6 +113,10 @@ class DashboardController extends Controller
         if ($applicant) {
             $applicant->status = $request->status; //override the status to the new status
             $applicant->save(); // save
+            // $job_listing_applicant = $applicant->user;
+            // dd($applicant->job_listing);
+            $notification = new ApplicantStatusNotification($applicant->user->email, $request->status, $applicant->job_listing->job_title, $applicant->job_listing->company->name);
+            $applicant->user->notify($notification);
             //redirect back with success message
             return Redirect::back()->with(['success' => 'Applicant status successfully updated']);
         } else {
@@ -123,7 +130,12 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
-        $userJobApplications = $user->user_applications()->latest()->get(); //fetch the application of user
+        // $userJobApplications = $user->user_applications()->latest()->get(); //fetch the application of user
+        //old logic
+
+
+        // new logic, will not return job application if job listing's comapny is soft deleted
+        $userJobApplications = $user->user_applications()->whereHas('job_listing.company')->latest()->get();
         return  view('users.dashboard.jobapplication', ['userJobApplications' => $userJobApplications]);
     }
 
@@ -144,13 +156,14 @@ class DashboardController extends Controller
         ]);
     }
 
-     //show the profile page
-     public function showProfileImage(Request $request){
+    //show the profile page
+    public function showProfileImage(Request $request)
+    {
         $user = $request->user(); //this will return authenticated user data
 
         $userDetails = $user->user_detail()->first();
         //.dd($userDetails);
-        return view('users.dashboard.profilePage',[  'userDetails' => $userDetails]);
+        return view('users.dashboard.profilePage', ['userDetails' => $userDetails]);
     }
 
     //show the company form
@@ -180,10 +193,10 @@ class DashboardController extends Controller
         //This line checks if the incoming HTTP request has a file input named 'logo_url'. The hasFile method returns true if a file was uploaded via the specified input field.
         if ($request->hasFile('logo_url')) {
             /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
-            
+
             //store locally
             // $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
-            
+
             //store in 
             $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
         }
@@ -220,9 +233,16 @@ class DashboardController extends Controller
         $company = Company::find($clickItem);
 
 
-        $company->delete();
-        //  dd($company);
-        return Redirect::back()->with('success', 'Company successfully moved to trash');
+        try {
+            $clickItem = $request->company_id;
+            $company = Company::findOrFail($clickItem);
+
+            $company->delete();
+            return Redirect::back()->with('success', 'Company successfully moved to trash');
+        } catch (ModelNotFoundException $e) {
+            // return Redirect::back()->with('error', 'Company not found');
+            return Redirect::back()->with('success', 'Company successfully moved to trash');
+        }
     }
     //create a job posting 
     public function create_jobposting(Request $request)
