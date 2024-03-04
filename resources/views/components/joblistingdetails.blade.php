@@ -20,6 +20,21 @@
             },
         };
     </script>
+    <style>
+        .fadeIn {
+            animation: fadeInAnimation ease 5s;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
@@ -27,11 +42,10 @@
 
 <body class="">
 
-    <div class="bg-gray-50 w-[90%] h-auto mx-auto mt-10 rounded-sm border p-2">
-        <div class="p-2 flex flex-col items-center">
+    <div class="fadeIn mx-auto mt-10 h-auto w-[90%] rounded-sm border bg-gray-50 p-2">
+        <div class="flex flex-col items-center p-2">
             <div>
-                <img class="    mt-10 p-2 w-48 h-48 bg-none" src="{{ asset('storage/' . $listing->company->logo_url) }}"
-                    alt="" />
+                <img class="mt-10 h-48 w-48 bg-none p-2" src="{{ $listing->company->image_url() }}" alt="" />
             </div>
             <div class="mt-10 text-center">
                 <h1 class="text-xl">{{ $listing->job_title }}</h1>
@@ -42,41 +56,46 @@
 
 
         </div>
-        <div class="mx-auto mt-4 ">
-            <hr class="border-gray-400  w-[90%]  mx-14">
+        <div class="mx-auto mt-4">
+            <hr class="mx-14 w-[90%] border-gray-400">
         </div>
         <div class="mt-4 text-center">
-            <h1 class="font-bold text-1xl">Job Description</h1>
+            <h1 class="text-1xl font-bold">Job Description</h1>
             <p class="text-2xl">{{ $listing->description }}</p>
 
-            <div>
+            <div class="flex justify-center">
+                <div class="flex-1"> 
                 @auth
 
 
                     @if ($user_resume->count() > 0 && auth()->user()->id != $listing->user_id)
-                        <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300"
+                        <button
+                            class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
                             onclick="openModal()">
-                            <i class="fa-solid fa-envelope px-2 animate-pulse "></i>
+                            <i class="fa-solid fa-envelope animate-pulse px-2"></i>
                             Apply now
                         </button>
                     @else
                         <a href="/dashboard/my-resume">
-                            <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300">
-                                <i class="fa-solid fa-envelope px-2 animate-pulse"></i>
+                            <button
+                                class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
+                                <i class="fa-solid fa-envelope animate-pulse px-2"></i>
                                 Apply now
                             </button>
                         </a>
                     @endif
                 @else
                     <a href="/login">
-                        <button class="mt-4 p-2 bg-red-600 rounded-md w-48 font-semibold text-white outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300">
-                            <i class="fa-solid fa-envelope px-2 animate-pulse"></i>
+                        <button
+                            class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
+                            <i class="fa-solid fa-envelope animate-pulse px-2"></i>
                             Apply now
                         </button>
                     </a>
 
                 @endauth
-
+            </div>
+                {{-- <div class="  py-4">Posted by:{{$listing->user->email}}</div> --}}
             </div>
 
 
@@ -84,14 +103,14 @@
     </div>
 
     {{-- modal --}}
-    <div class="hidden main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+    <div class="main-modal h-100 animated fadeIn faster fixed inset-0 z-50 flex hidden w-full items-center justify-center overflow-hidden"
         style="background: rgba(0,0,0,.7);">
         <div
-            class="border shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-            <div class="modal-content py-2 text-left px-6">
-                <div class="flex justify-between items-center pb-3">
+            class="modal-container z-50 mx-auto w-11/12 overflow-y-auto rounded border bg-white shadow-lg shadow-lg md:max-w-md">
+            <div class="modal-content px-6 py-2 text-left">
+                <div class="flex items-center justify-between pb-3">
                     <p class="text-2xl font-bold">Application form to {{ $listing->company->name }}</p>
-                    <div onclick="modalClose()" class="modal-close cursor-pointer z-50">
+                    <div onclick="modalClose()" class="modal-close z-50 cursor-pointer">
                         <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
                             height="18" viewBox="0 0 18 18">
                             <path
@@ -106,8 +125,8 @@
                         @csrf
                         <input type="hidden" value="{{ $listing->id }}" name="job_listing_id" />
                         <div class="mb-6">
-                            <label for="resume_id" class="inline-block text-lg mb-2">Resume</label>
-                            <select type="text" class="border border-gray-200 rounded p-2 w-full" name="resume_id"
+                            <label for="resume_id" class="mb-2 inline-block text-lg">Resume</label>
+                            <select type="text" class="w-full rounded border border-gray-200 p-2" name="resume_id"
                                 value="{{ old('resume_id') }}" placeholder="Select your resume">
                                 @foreach ($user_resume as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -115,43 +134,43 @@
                             </select>
 
                             @error('resume_id')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-6">
-                            <label for="first_name" class="inline-block text-lg mb-2">First Name</label>
-                            <input type="text" class="border border-gray-200 rounded p-2 w-full" name="first_name"
+                            <label for="first_name" class="mb-2 inline-block text-lg">First Name</label>
+                            <input type="text" class="w-full rounded border border-gray-200 p-2" name="first_name"
                                 value="{{ old('first_name') }}" />
 
                             @error('first_name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-6">
-                            <label for="last_name" class="inline-block text-lg mb-2">Last Name</label>
-                            <input type="text" class="border border-gray-200 rounded p-2 w-full" name="last_name"
+                            <label for="last_name" class="mb-2 inline-block text-lg">Last Name</label>
+                            <input type="text" class="w-full rounded border border-gray-200 p-2" name="last_name"
                                 value="{{ old('last_name') }}" />
 
                             @error('last_name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-6">
-                            <label for="tel" class="inline-block text-lg mb-2">Contact Number</label>
-                            <input type="number" class="border border-gray-200 rounded p-2 w-full" name="tel"
+                            <label for="tel" class="mb-2 inline-block text-lg">Contact Number</label>
+                            <input type="number" class="w-full rounded border border-gray-200 p-2" name="tel"
                                 value="{{ old('tel') }}" />
 
                             @error('tel')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-6">
-                            <label for="education" class="inline-block text-lg mb-2">Education</label>
-                            <select type="text" class="border border-gray-200 rounded p-2 w-full" name="education"
+                            <label for="education" class="mb-2 inline-block text-lg">Education</label>
+                            <select type="text" class="w-full rounded border border-gray-200 p-2" name="education"
                                 placeholder="Select education" value="{{ old('education') }}">
                                 @foreach ($educationType as $item)
                                     <option value="{{ $item }}">{{ $item }}</option>
@@ -160,13 +179,13 @@
                             </select>
 
                             @error('education')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="flex justify-center pt-2">
 
                             <button type="submit"
-                                class="focus:outline-none px-4 bg-[#023047]  p-3 ml-3 rounded-lg text-white hover:bg-teal-400 hover:text-black">
+                                class="ml-3 rounded-lg bg-[#023047] p-3 px-4 text-white hover:bg-teal-400 hover:text-black focus:outline-none">
                                 Submit Application
                             </button>
                         </div>
