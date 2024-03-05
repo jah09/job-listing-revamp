@@ -35,7 +35,7 @@ Route::post('/logout', [UserController::class, 'logout'])->name('dashboard.logou
 Route::post('/users/edit', [UserController::class, 'update_settings']); //update the user
 
 Route::get('/users/change-password', [UserController::class, 'showChangePasswordPage']); //
-Route::get('/users/submit-change-password',[UserController::class, 'updatePassword']);
+Route::post('/users/submit-change-password',[UserController::class, 'updatePassword']);
 //dynamic featured/job listing then if clicked, user will be redirected to job details page
 Route::get('/job-details/{jobdetails}', [UserController::class, 'showJobListingDetails']); //navigate to job listing details
 Route::post('/create-job-application', [UserController::class, 'createJobApplication']); // insert  data to job application database

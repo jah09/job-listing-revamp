@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log as log;
 use App\Notifications\JobListingApplicationNotification;
@@ -125,17 +126,23 @@ class UserController extends Controller
     //change password 
     public function updatePassword(Request $request)
     {
-        $user = $request->user();
+        // $user = $request->user();
         $formfields = $request->validate([
             'email' => ['required', 'email'],
-            'password' => 'required'
+            'password' => 'required|min:6'
         ]);
-
-        $user->user_detail()->updateOrCreate(
-            ['user_id' => $user->id], // Search criteria
-            // Values to update or create  $formFields 
-        );
-        return redirect(route('dashboard.settings'))->with('success', 'Profile updated successfully.');
+        $user = User::where('email', $formfields['email'])->first();
+        if ($user) {
+               $formFields['password'] = bcrypt($formfields['password']);
+           // $user->password = bcrypt::make($formfields['password']);
+           // $user->save();
+           $user->update($formFields); // Update the user with hashed password
+    
+            return redirect()->back()->with('success', 'Password updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'User with provided email not found.');
+        }
+       // return redirect::back()->with('success', 'Password updated successfully.');
     }
 
     //update the user settings
@@ -231,7 +238,7 @@ class UserController extends Controller
             $job_application = $user->user_applications()->create($formFields);
 
             $job_listing_owner = $job_application->job_listing->user;
-            
+
             //pass the params to notification
             $notification = new JobListingApplicationNotification($user->email, $job_application->job_listing);
             $job_listing_owner->notify($notification);

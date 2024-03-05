@@ -19,7 +19,7 @@
                 extend: {
                     colors: {
                         'hipe-blue': '#229fe7',
-                        'hipe-dark-blue': '#023047'
+                        'hipe-dark-blue': '#023047',
                         'hipe-yellow': '#ffa903'
                     },
                 },
@@ -32,31 +32,34 @@
 
 
 
-<body>
-    <div class="px-[40px] pt-[24px] z-40 absolute top-0 left-0 flex justify-between items-start w-full h-full ">
+<body style="overflow-x: hidden;">
+    <div class="absolute left-0 top-0 z-10 flex h-full w-full items-start justify-between px-[40px] pt-[24px]">
         <img class="w-[100px]" src="images/img_logo.svg" alt="">
-        <div class="space-x-6 text-white font-semibold ">
+        <div class="space-x-6 font-semibold text-white">
             @auth
-                <a href="/dashboard/home" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Home</a>
+                <a href="/dashboard/home" class="border-[#229fe7] hover:border-b-2 hover:text-[#229fe7]">Home</a>
             @else
-                <a href="/" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Home</a>
+                <a href="/" class="border-[#229fe7] hover:border-b-2 hover:text-[#229fe7]">Home</a>
             @endauth
-            <a href="{{ route('about'). '#about-page' }}" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">About</a>
+            <a href="{{ route('about') . '#about-page' }}"
+                class="border-[#229fe7] hover:border-b-2 hover:text-[#229fe7]">About</a>
+
             <form action="/contact-us" method="GET" class="inline">
                 @csrf
-                <button type="submit" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Contact</button>
-                 
+                <button type="submit"
+                    class="{{ Request::is('/contact-us?_token=cHljjl2FhxZr5oSCBAKFFkdvXBVwVy5eCEkERxFZ') ? 'border-[#229fe7] text-[#229fe7] border-b-2' : '' }} border-[#229fe7] hover:border-b-2 hover:text-[#229fe7]">Contact</button>
+
             </form>
 
             @auth
                 <form class="inline" method="POST" action="/logout">
                     @csrf
-                    <button type="submit" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">
+                    <button type="submit" class="border-[#229fe7] hover:border-b-2 hover:text-[#229fe7]">
                         Logout
                     </button>
                 </form>
             @else
-                <a href="/login" class="hover:text-[#229fe7] hover:border-b-2 border-[#229fe7]">Login</a>
+                <a href="/login" class="border-[#229fe7] hover:border-b-2 hover:text-[#229fe7]">Login</a>
             @endauth
         </div>
     </div>
