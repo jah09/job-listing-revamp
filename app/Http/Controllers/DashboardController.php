@@ -109,8 +109,7 @@ class DashboardController extends Controller
         if ($applicant) {
             $applicant->status = $request->status; //override the status to the new status
             $applicant->save(); // save
-            // $job_listing_applicant = $applicant->user;
-            // dd($applicant->job_listing);
+          
             $notification = new ApplicantStatusNotification($applicant->user->email, $request->status, $applicant->job_listing->job_title, $applicant->job_listing->company->name);
             $applicant->user->notify($notification);
             //redirect back with success message
