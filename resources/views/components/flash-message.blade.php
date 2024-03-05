@@ -1,4 +1,4 @@
-@if (session()->has('success'))
+ @if (session()->has('success'))
     <script>
         Swal.fire({
             icon: "success",
@@ -7,6 +7,7 @@
             confirmButtonColor: "#023047",
             timer: 2500
         });
+     
     </script>
 @elseif(session()->has('error'))
     <script>
@@ -18,4 +19,5 @@
             timer: 2500
         });
     </script>
-@endif
+@endif  
+

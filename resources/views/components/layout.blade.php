@@ -13,6 +13,8 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+  
+
     <script>
         tailwind.config = {
             theme: {
@@ -32,9 +34,9 @@
 
 
 
-<body >
-    <nav class="flex justify-between items-center  bg-[#023047">
-       
+<body>
+    <nav class="bg-[#023047 flex items-center justify-between">
+
         {{-- <a href="/"><img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo" /></a>
         <ul class="flex space-x-6 mr-6 text-lg">
             @auth
@@ -69,7 +71,7 @@
     <main class="">
         {{ $slot }}
     </main>
-   <x-flash-message/>
+    <x-flash-message />
 </body>
 
 

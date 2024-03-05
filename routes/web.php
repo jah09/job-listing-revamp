@@ -55,6 +55,8 @@ Route::get('verify-email/{id}/{hash}', [UserController::class, 'verify_email'])-
 
 //create new company/inser to db
 Route::post('/createcompany', [DashboardController::class, 'create_company']);
+//update a company
+Route::post('/updatecompany',[DashboardController::class, 'update_company']);
 //create job posting/inser to db
 Route::post('/createjoblisting', [DashboardController::class, 'create_jobposting']);
 //create a resume then store to db
