@@ -135,8 +135,7 @@ class DashboardController extends Controller
         return  view('users.dashboard.jobapplication', ['userJobApplications' => $userJobApplications]);
     }
 
-
-
+ 
     //show settings
     public function  showSettings(Request $request)
     {
