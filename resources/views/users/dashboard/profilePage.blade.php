@@ -28,7 +28,7 @@
                     <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                         <div class="flex items-center space-x-4 mt-2">
                             <a href="/dashboard/settings"> 
-                            <button class="flex items-center bg-[#229fe7] text-gray-900 font-medium px-4 py-2 rounded text-md space-x-2  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300">
+                            <button class="flex items-center bg-hipe-dark-blue text-white font-medium px-4 py-2 rounded text-md space-x-2  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300 hover:shadow-hipe-dark-blue-500/40">
                               
                                 <span>Update</span>
                                 <i class="fa fa-sign-in ml-2 animate-pulse" aria-hidden="true"></i>

@@ -99,12 +99,12 @@
                     @enderror
                 </div>
                 {{-- Button codes --}}
-                <div class="mb-6 flex justify-center">
-                    <button type="submit"
-                        class="bg-gray-50 font-semibold   rounded py-2 px-4 border border-red-600 text-black hover:bg-red-600 hover:text-white">
-                        Save Changes
-                        <i class="fa fa-sign-in ml-2" aria-hidden="true"></i>
-                    </button>
+                <div class=" flex justify-center">
+                    
+                    <div class="p-4  ">
+                        <button type="submit"
+                            class="from-hipe-blue to-hipe-dark-blue mx-auto  block w-40 rounded-lg bg-gradient-to-r py-2 font-semibold text-black transition delay-150 ease-in-out hover:-translate-y-1 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"> Save Changes  <i class="fa fa-sign-in ml-2" aria-hidden="true"></i></button>
+                    </div>
                 </div>
 
 

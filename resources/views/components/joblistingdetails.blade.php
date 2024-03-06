@@ -13,7 +13,7 @@
                 extend: {
                     colors: {
                         'hipe-blue': '#229fe7',
-                        'hipe-dark-blue': '#023047'
+                        'hipe-dark-blue': '#023047',
                         'hipe-yellow': '#ffa903'
                     },
                 },
@@ -64,37 +64,50 @@
             <p class="text-2xl">{{ $listing->description }}</p>
 
             <div class="flex justify-center">
-                <div class="flex-1"> 
-                @auth
+                <div class="flex-1">
+                    @auth
 
 
-                    @if ($user_resume->count() > 0 && auth()->user()->id != $listing->user_id)
-                        <button
-                            class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
-                            onclick="openModal()">
-                            <i class="fa-solid fa-envelope animate-pulse px-2"></i>
-                            Apply now
-                        </button>
+                        @if ($user_resume->count() > 0 && auth()->user()->id != $listing->user_id)
+                            <div class="p-4">
+                                {{-- <button
+                                class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
+                                onclick="openModal()">
+                                <i class="fa-solid fa-envelope animate-pulse px-2"></i>
+                                Apply now
+                            </button> --}}
+                                <button type="submit" onclick="openModal()"
+                                    class="from-hipe-blue to-hipe-dark-blue mx-auto mb-2 block w-40 rounded-lg bg-gradient-to-r py-2 font-semibold text-black transition delay-150 ease-in-out hover:-translate-y-1 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
+                                    <i class="fa-solid fa-envelope animate-pulse px-2"></i>Apply
+                                    Now</button>
+                            </div>
+                        @else
+                            <div class="p-4">
+
+                                <a href="/dashboard/my-resume">
+                                    {{-- <button
+                                class="mt-4 w-48 rounded-md  from-hipe-blue to-hipe-dark-blue bg-gradient-to-r p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
+                                <i class="fa-solid fa-envelope animate-pulse px-2"></i>
+                                Apply now
+                            </button> --}}
+                                    <button type="submit"
+                                        class="from-hipe-blue to-hipe-dark-blue mx-auto mb-2 block w-40 rounded-lg bg-gradient-to-r py-2 font-semibold text-black transition delay-150 ease-in-out hover:-translate-y-1 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
+                                        <i class="fa-solid fa-envelope animate-pulse px-2"></i>Apply
+                                        Now</button>
+                                </a>
+                            </div>
+                        @endif
                     @else
-                        <a href="/dashboard/my-resume">
+                        <a href="/login">
                             <button
                                 class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
                                 <i class="fa-solid fa-envelope animate-pulse px-2"></i>
                                 Apply now
                             </button>
                         </a>
-                    @endif
-                @else
-                    <a href="/login">
-                        <button
-                            class="mt-4 w-48 rounded-md bg-red-600 p-2 font-semibold text-white outline-none transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
-                            <i class="fa-solid fa-envelope animate-pulse px-2"></i>
-                            Apply now
-                        </button>
-                    </a>
 
-                @endauth
-            </div>
+                    @endauth
+                </div>
                 {{-- <div class="  py-4">Posted by:{{$listing->user->email}}</div> --}}
             </div>
 

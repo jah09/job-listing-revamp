@@ -19,8 +19,13 @@
         <h1 class="text-hipe-blue mt-8 text-4xl font-semibold text-[#229fe7]">FEATURED JOBS</h1>
 
     </div>
-    <div class="flex justify-center">
+    <div class=" p-4">
+        @include('partials._search')
+    </div>
+    <div class="flex justify-center  ">
+       
         <div class="{{ count($jobListing) === 1 ? 'justify-center' : 'grid-cols-4' }} grid gap-4 p-4">
+          
             @if ($jobListing->count() > 0)
                 @foreach ($jobListing as $item)
                     <div

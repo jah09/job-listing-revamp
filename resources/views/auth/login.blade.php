@@ -33,9 +33,10 @@
                                 <p class="mt-1 text-sm font-semibold text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="pb-2 pt-4">
-                            <input class="block w-full rounded-sm bg-black p-4 text-lg" type="password" name="password"
+                        <div class="pb-2 pt-4  relative   ">
+                            <input class="block w-full rounded-sm bg-black p-4 text-lg  " type="password" name="password"
                                 id="password" placeholder="Password" value="{{ old('password') }}">
+                               
                             @error('password')
                                 <p class="mt-1 text-sm font-semibold text-red-500">{{ $message }}</p>
                             @enderror
@@ -45,7 +46,7 @@
                             <div class="mb-2 flex justify-end">
                                 <div class="flex h-5 items-center">
                                     <input id="checkbox" aria-describedby="checkbox" type="checkbox"
-                                        class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300">
+                                        class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-[#229fe7] focus:ring-blue-300">
                                 </div>
                                 <div class="ml-3 text-sm">
                                     <label for="checkbox" class="font-medium text-white">Show password</label>
@@ -58,7 +59,7 @@
                                 in <i class="fa fa-sign-in ml-2" aria-hidden="true"></i></button>
                         </div>
                          <div class="text-right text-gray-400 hover:text-gray-100 hover:underline">
-                                <a href="/users/change-password">Forgot your password?</a>
+                                <a href="/forgot-password">Forgot your password?</a>
                             </div>
                         <div class="mt-20">
                             <p class="font-semibold">

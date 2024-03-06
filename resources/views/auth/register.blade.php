@@ -39,9 +39,7 @@
                                 <p class="text-red-500 text-sm font-semibold mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
-                            <a href="#">Forgot your password?</a>
-                        </div>
+               
                         <div class=" pb-2 pt-6">
                             <button type="submit"
                                 class="uppercase block w-full p-4 text-lg rounded-md border border-[#229fe7] hover:bg-[#229fe7] hover:text-black focus:outline-none font-semibold">

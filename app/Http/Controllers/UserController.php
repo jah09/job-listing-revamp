@@ -9,15 +9,18 @@ use App\Models\User;
 use App\Models\Contact;
 use App\Models\JobListing;
 use App\Models\Newsletter;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Log as log;
 use App\Notifications\JobListingApplicationNotification;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -27,7 +30,7 @@ class UserController extends Controller
     //return the view of login-form
     public function login()
     {
-        return  view('users.login');
+        return  view('auth.login');
     }
 
     //show the contact page screen
@@ -59,7 +62,7 @@ class UserController extends Controller
     //return the view register form
     public function register()
     {
-        return  view('users.register');
+        return  view('auth.register');
     }
 
     //store the user data to database or register
@@ -118,31 +121,60 @@ class UserController extends Controller
     }
 
     //show the forgot password page
-    public function showChangePasswordPage()
+    public function forgot_password()
     {
-        return view('users.forgotpassword');
+        return view('auth.forgot-password');
     }
 
-    //change password 
-    public function updatePassword(Request $request)
+    // for sendling password reset link
+    public function forgot_password_send_email(Request $request)
     {
-        // $user = $request->user();
-        $formfields = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => 'required|min:6'
-        ]);
-        $user = User::where('email', $formfields['email'])->first();
-        if ($user) {
-               $formFields['password'] = bcrypt($formfields['password']);
-           // $user->password = bcrypt::make($formfields['password']);
-           // $user->save();
-           $user->update($formFields); // Update the user with hashed password
     
-            return redirect()->back()->with('success', 'Password updated successfully.');
-        } else {
-            return redirect()->back()->with('error', 'User with provided email not found.');
+        //This line validates the incoming request data. It ensures that the request contains an email parameter, and that the value of the email parameter is a valid email address.
+       $request->validate(['email' => 'required|email']);
+        
+
+       //This line sends a password reset link to the provided email address. It uses Laravel's built-in Password class which provides methods for handling password resets. The sendResetLink method takes an array containing only the email address from the request.
+       $status = Password::sendResetLink( $request->only('email'));
+        
+       //checks the return status of the sendResetLink method. 
+       if ($status == Password::RESET_LINK_SENT){
+           return Redirect::back()->with(['success' => 'Password reset link has been sent to email.']);
+       }else {
+           return Redirect::back()->with(['error' => 'Failed to sent password reset link']);
+       }
+    }
+    //reset-password
+    public function reset_password(Request $request){
+        $token=$request->token;
+        $email=$request->email;
+        return view('auth.reset-password', ['token' => $token,'email'=>$email]);
+    }
+    //Handling the saving new password
+    public function save_reset_password(Request $request){
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required','min:6'],
+        ]);
+        //This code is a closure function that takes a $user object as input. It's used within the Password::reset method call for updating the user's password and generating a new remember token.
+        $status = Password::reset(
+            $request->only('email', 'password', 'token'),
+            function ($user) use ($request) {
+                //This method allows you to fill the model with a given array of attributes, bypassing mass assignment protection. In this case, it's updating the user's password with the hashed value of the new password provided in the request. Hash::make($request->password) hashes the new password for security.
+                $user->forceFill([
+                    'password' => Hash::make($request->password)
+                     
+                ])->setRememberToken(Str::random(60)); //This method generates a new remember token for the user. Remember tokens are used for authentication and are typically stored in a cookie. Str::random(60) generates a random string of 60 characters.
+                $user->save(); //saves the changes made by the user
+                event(new PasswordReset($user)); //This line triggers the PasswordReset event, which can be used for logging, notifications, or other actions related to password resets.
+            }
+        );
+        if ($status == Password::PASSWORD_RESET){
+            return Redirect::back()->with(['success' => 'Password has been sucessfully changed']);
+        }else {
+            return Redirect::back()->with(['success' => 'Failed to change password']);
         }
-       // return redirect::back()->with('success', 'Password updated successfully.');
     }
 
     //update the user settings
@@ -178,10 +210,10 @@ class UserController extends Controller
     //show the landing page
     public function show_landing_page()
     {
-        //old logic
+        //old logic 
         //  $user_joblisting = JobListing::all(); //fetch the job listing data from database then pass to landing page by jobListing variable
         // new logic, will not return job listing if company has soft deleted
-        $user_joblisting = JobListing::whereHas('company')->get();
+        $user_joblisting = JobListing::whereHas('company')->filter(request([ 'search']))->get();
 
         return view(
             'landing',

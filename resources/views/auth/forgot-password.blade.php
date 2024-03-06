@@ -25,9 +25,10 @@
 
 
 
-                    <form action="/users/submit-change-password" method="POST"
+                    <form action="{{ route('password.send_email') }}" method="POST"
                         class="mx-auto w-full px-4 sm:w-2/3 lg:px-0">
                         @csrf
+                        
                         <div class="pb-2 pt-4">
                             <input type="email" name="email" id="email" placeholder="Email"
                                 class="block w-full rounded-sm bg-black p-4 text-lg" value="{{ old('email') }}">
@@ -35,34 +36,11 @@
                                 <p class="mt-1 text-sm font-semibold text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="pb-2 pt-4">
-
-                            <input class="block w-full rounded-sm bg-black p-4 text-lg" type="password" name="password"
-                                id="password" placeholder="New Password" value="{{ old('password') }}">
-
-
-
-                            @error('password')
-                                <p class="mt-1 text-sm font-semibold text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        {{-- <div class="text-right text-gray-400 hover:text-gray-100 hover:underline">
-                            <a href=" ">
-                                <button id="showPassword">Show password </button> </a>
-                        </div> --}}
-                        <div class="mb-6 flex justify-end">
-                            <div class="flex h-5 items-center">
-                                <input id="checkbox" aria-describedby="checkbox" type="checkbox"
-                                    class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-blue-300">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label for="checkbox" class="font-medium text-white">Show password</label>
-                            </div>
-                        </div>
+                       
                         
                         <div class="pb-2 pt-6">
                             <button type="submit"
-                                class="block w-full rounded-md border border-[#229fe7] p-4 text-lg font-semibold uppercase hover:bg-[#229fe7] hover:text-black focus:outline-none">Submit
+                                class="block w-full rounded-md border border-[#229fe7] p-4 text-lg font-semibold uppercase hover:bg-[#229fe7] hover:text-black focus:outline-none"> {{ __('Send password reset link') }}
                                 <i class="fa fa-sign-in ml-2" aria-hidden="true"></i></button>
                         </div>
                         <div class="mt-20">
