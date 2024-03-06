@@ -58,7 +58,7 @@
                                 in <i class="fa fa-sign-in ml-2" aria-hidden="true"></i></button>
                         </div>
                          <div class="text-right text-gray-400 hover:text-gray-100 hover:underline">
-                                <a href="/users/change-password">Forgot your password?</a>
+                                <a href="/forgot-password">Forgot your password?</a>
                             </div>
                         <div class="mt-20">
                             <p class="font-semibold">

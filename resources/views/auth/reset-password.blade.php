@@ -19,15 +19,16 @@
                     <div class="flex flex-col items-center">
                         <img src="{{ asset('images/logo.png') }}" alt="logo" class="w-24">
                         <h1 class="my-6 text-4xl font-bold">
-                            Forgot password
+                            Reset password
                         </h1>
                     </div>
 
 
 
-                    <form action="/users/submit-change-password" method="POST"
+                    <form action="{{ route('password.save') }}" method="POST"
                         class="mx-auto w-full px-4 sm:w-2/3 lg:px-0">
                         @csrf
+                        <input type="hidden" id="token" name="token" value="{{$token}}">
                         <div class="pb-2 pt-4">
                             <input type="email" name="email" id="email" placeholder="Email"
                                 class="block w-full rounded-sm bg-black p-4 text-lg" value="{{ old('email') }}">
@@ -38,7 +39,7 @@
                         <div class="pb-2 pt-4">
 
                             <input class="block w-full rounded-sm bg-black p-4 text-lg" type="password" name="password"
-                                id="password" placeholder="New Password" value="{{ old('password') }}">
+                                id="password" placeholder=" Password" value="{{ old('password') }}">
 
 
 
@@ -46,10 +47,7 @@
                                 <p class="mt-1 text-sm font-semibold text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- <div class="text-right text-gray-400 hover:text-gray-100 hover:underline">
-                            <a href=" ">
-                                <button id="showPassword">Show password </button> </a>
-                        </div> --}}
+                       
                         <div class="mb-6 flex justify-end">
                             <div class="flex h-5 items-center">
                                 <input id="checkbox" aria-describedby="checkbox" type="checkbox"
@@ -62,7 +60,7 @@
                         
                         <div class="pb-2 pt-6">
                             <button type="submit"
-                                class="block w-full rounded-md border border-[#229fe7] p-4 text-lg font-semibold uppercase hover:bg-[#229fe7] hover:text-black focus:outline-none">Submit
+                                class="block w-full rounded-md border border-[#229fe7] p-4 text-lg font-semibold uppercase hover:bg-[#229fe7] hover:text-black focus:outline-none"> {{ __('Email Password Reset Link') }}
                                 <i class="fa fa-sign-in ml-2" aria-hidden="true"></i></button>
                         </div>
                         <div class="mt-20">

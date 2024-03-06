@@ -9,15 +9,18 @@ use App\Models\User;
 use App\Models\Contact;
 use App\Models\JobListing;
 use App\Models\Newsletter;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Log as log;
 use App\Notifications\JobListingApplicationNotification;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -27,7 +30,7 @@ class UserController extends Controller
     //return the view of login-form
     public function login()
     {
-        return  view('users.login');
+        return  view('auth.login');
     }
 
     //show the contact page screen
@@ -59,7 +62,7 @@ class UserController extends Controller
     //return the view register form
     public function register()
     {
-        return  view('users.register');
+        return  view('auth.register');
     }
 
     //store the user data to database or register
@@ -118,31 +121,52 @@ class UserController extends Controller
     }
 
     //show the forgot password page
-    public function showChangePasswordPage()
+    public function forgot_password()
     {
-        return view('users.forgotpassword');
+        return view('auth.forgot-password');
     }
 
-    //change password 
-    public function updatePassword(Request $request)
+    // for sendling password reset link
+    public function forgot_password_send_email(Request $request)
     {
-        // $user = $request->user();
-        $formfields = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => 'required|min:6'
-        ]);
-        $user = User::where('email', $formfields['email'])->first();
-        if ($user) {
-               $formFields['password'] = bcrypt($formfields['password']);
-           // $user->password = bcrypt::make($formfields['password']);
-           // $user->save();
-           $user->update($formFields); // Update the user with hashed password
     
-            return redirect()->back()->with('success', 'Password updated successfully.');
-        } else {
-            return redirect()->back()->with('error', 'User with provided email not found.');
+       $request->validate(['email' => 'required|email']);
+ 
+       $status = Password::sendResetLink( $request->only('email'));
+
+       if ($status == Password::RESET_LINK_SENT){
+           return Redirect::back()->with(['success' => 'Password reset link has been sent to email.']);
+       }else {
+           return Redirect::back()->with(['error' => 'Failed to sent password reset link']);
+       }
+    }
+    //reset-password
+    public function reset_password(string $token){
+        return view('auth.reset-password', ['token' => $token]);
+    }
+    //Handling the saving new password
+    public function save_reset_password(Request $request){
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required','min:6'],
+        ]);
+        $status = Password::reset(
+            $request->only('email', 'password', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password)
+                     
+                ])->setRememberToken(Str::random(60));
+                $user->save();
+                event(new PasswordReset($user));
+            }
+        );
+        if ($status == Password::PASSWORD_RESET){
+            return Redirect::back()->with(['success' => 'Password has been sucessfully changed']);
+        }else {
+            return Redirect::back()->with(['success' => 'Failed to change password']);
         }
-       // return redirect::back()->with('success', 'Password updated successfully.');
     }
 
     //update the user settings

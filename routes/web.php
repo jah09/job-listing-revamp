@@ -34,8 +34,17 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']); //L
 Route::post('/logout', [UserController::class, 'logout'])->name('dashboard.logout'); //logout the user logout
 Route::post('/users/edit', [UserController::class, 'update_settings']); //update the user
 
-Route::get('/users/change-password', [UserController::class, 'showChangePasswordPage']); //
-Route::post('/users/submit-change-password',[UserController::class, 'updatePassword']);
+//show the  forgot password form
+Route::get('/forgot-password', [UserController::class, 'forgot_password'])->middleware('guest')->name('password.request');
+
+//route for sendling password reset link
+Route::post('forgot-password/send-email', [UserController::class, 'forgot_password_send_email'])->name('password.send_email');
+
+Route::get('/reset-password/{token}', [UserController::class,'reset_password'])->middleware('guest')->name('password.reset');
+ //route for saving new password
+Route::post('reset-password/save', [UserController::class, 'save_reset_password'])->name('password.save');
+
+
 //dynamic featured/job listing then if clicked, user will be redirected to job details page
 Route::get('/job-details/{jobdetails}', [UserController::class, 'showJobListingDetails']); //navigate to job listing details
 Route::post('/create-job-application', [UserController::class, 'createJobApplication']); // insert  data to job application database
@@ -56,11 +65,11 @@ Route::get('verify-email/{id}/{hash}', [UserController::class, 'verify_email'])-
 //create new company/inser to db
 Route::post('/createcompany', [DashboardController::class, 'create_company']);
 //update a company
-Route::post('/updatecompany',[DashboardController::class, 'update_company']);
+Route::post('/updatecompany', [DashboardController::class, 'update_company']);
 //create job posting/inser to db
 Route::post('/createjoblisting', [DashboardController::class, 'create_jobposting']);
 //update a job posting
-Route::post('/update-job-listing',[DashboardController::class,'update_jobposting']);
+Route::post('/update-job-listing', [DashboardController::class, 'update_jobposting']);
 //create a resume then store to db
 Route::post('/store-resume', [DashboardController::class, 'storeResume'])->name('storeResume');
 //soft delete a company
