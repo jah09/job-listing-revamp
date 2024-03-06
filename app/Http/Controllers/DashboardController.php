@@ -88,7 +88,7 @@ class DashboardController extends Controller
         $clickItem = $request->listing_id; //get the Job listing ID of clicked item
 
         $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
- 
+
         //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
         $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
 
@@ -109,8 +109,7 @@ class DashboardController extends Controller
         if ($applicant) {
             $applicant->status = $request->status; //override the status to the new status
             $applicant->save(); // save
-            // $job_listing_applicant = $applicant->user;
-            // dd($applicant->job_listing);
+
             $notification = new ApplicantStatusNotification($applicant->user->email, $request->status, $applicant->job_listing->job_title, $applicant->job_listing->company->name);
             $applicant->user->notify($notification);
             //redirect back with success message
@@ -205,6 +204,43 @@ class DashboardController extends Controller
         return redirect('/dashboard/company')->with('success', 'Company created successfully');
     }
 
+    //update a company
+    public function update_company(Request $request)
+    {
+        $user = $request->user();
+        $clickItem = $request->id;
+
+        $company = Company::find($clickItem);
+        //dd($company);
+        $formFields = $request->validate([
+
+            'name' => ['required', Rule::unique('companies', 'name')],
+            'address' => ['required'],
+            'city' => ['required'],
+            'state' => ['required'],
+            'postal' => ['required'],
+            'tel' => ['required'],
+            'email' => ['required'],
+            'website' => ['required'],
+        ]);
+        if ($request->hasFile('logo_url')) {
+            /*  If a file with the name 'logo_url' is present in the request, e retrieve ang  file using the FILE Method then e store sa LOGOS folder in public folder*/
+
+            //store locally
+            // $formFields['logo_url'] = $request->file('logo_url')->store('logos', 'public');
+
+            //store in 
+            $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
+        }
+        if ($company) {
+            $user->user_companies()->updateOrCreate(
+                ['id' => $clickItem], // Search 
+                $formFields // Values to update or create
+            );
+            return redirect('/dashboard/company')->with('success', 'Profile updated successfully.');
+        }
+    }
+
     //show the create post form
     public function showCreateJobListingForm()
     {
@@ -240,7 +276,7 @@ class DashboardController extends Controller
             return Redirect::back()->with('success', 'Company successfully moved to trash');
         }
     }
-    
+
     //create a job posting 
     public function create_jobposting(Request $request)
     {
