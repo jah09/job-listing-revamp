@@ -178,7 +178,7 @@ class UserController extends Controller
     //show the landing page
     public function show_landing_page()
     {
-        //old logic
+        //old logic 
         //  $user_joblisting = JobListing::all(); //fetch the job listing data from database then pass to landing page by jobListing variable
         // new logic, will not return job listing if company has soft deleted
         $user_joblisting = JobListing::whereHas('company')->get();
