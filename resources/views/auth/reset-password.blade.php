@@ -31,7 +31,7 @@
                         <input type="hidden" id="token" name="token" value="{{$token}}">
                         <div class="pb-2 pt-4">
                             <input type="email" name="email" id="email" placeholder="Email"
-                                class="block w-full rounded-sm bg-black p-4 text-lg" value="{{ old('email') }}">
+                                class="block w-full rounded-sm bg-black p-4 text-lg" value="{{$email}}" readonly>
                             @error('email')
                                 <p class="mt-1 text-sm font-semibold text-red-500">{{ $message }}</p>
                             @enderror

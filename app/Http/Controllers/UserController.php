@@ -130,10 +130,14 @@ class UserController extends Controller
     public function forgot_password_send_email(Request $request)
     {
     
+        //This line validates the incoming request data. It ensures that the request contains an email parameter, and that the value of the email parameter is a valid email address.
        $request->validate(['email' => 'required|email']);
- 
-       $status = Password::sendResetLink( $request->only('email'));
+        
 
+       //This line sends a password reset link to the provided email address. It uses Laravel's built-in Password class which provides methods for handling password resets. The sendResetLink method takes an array containing only the email address from the request.
+       $status = Password::sendResetLink( $request->only('email'));
+        
+       //checks the return status of the sendResetLink method. 
        if ($status == Password::RESET_LINK_SENT){
            return Redirect::back()->with(['success' => 'Password reset link has been sent to email.']);
        }else {
@@ -141,8 +145,10 @@ class UserController extends Controller
        }
     }
     //reset-password
-    public function reset_password(string $token){
-        return view('auth.reset-password', ['token' => $token]);
+    public function reset_password(Request $request){
+        $token=$request->token;
+        $email=$request->email;
+        return view('auth.reset-password', ['token' => $token,'email'=>$email]);
     }
     //Handling the saving new password
     public function save_reset_password(Request $request){
@@ -151,15 +157,17 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required','min:6'],
         ]);
+        //This code is a closure function that takes a $user object as input. It's used within the Password::reset method call for updating the user's password and generating a new remember token.
         $status = Password::reset(
             $request->only('email', 'password', 'token'),
             function ($user) use ($request) {
+                //This method allows you to fill the model with a given array of attributes, bypassing mass assignment protection. In this case, it's updating the user's password with the hashed value of the new password provided in the request. Hash::make($request->password) hashes the new password for security.
                 $user->forceFill([
                     'password' => Hash::make($request->password)
                      
-                ])->setRememberToken(Str::random(60));
-                $user->save();
-                event(new PasswordReset($user));
+                ])->setRememberToken(Str::random(60)); //This method generates a new remember token for the user. Remember tokens are used for authentication and are typically stored in a cookie. Str::random(60) generates a random string of 60 characters.
+                $user->save(); //saves the changes made by the user
+                event(new PasswordReset($user)); //This line triggers the PasswordReset event, which can be used for logging, notifications, or other actions related to password resets.
             }
         );
         if ($status == Password::PASSWORD_RESET){
@@ -205,7 +213,7 @@ class UserController extends Controller
         //old logic 
         //  $user_joblisting = JobListing::all(); //fetch the job listing data from database then pass to landing page by jobListing variable
         // new logic, will not return job listing if company has soft deleted
-        $user_joblisting = JobListing::whereHas('company')->get();
+        $user_joblisting = JobListing::whereHas('company')->filter(request([ 'search']))->get();
 
         return view(
             'landing',
