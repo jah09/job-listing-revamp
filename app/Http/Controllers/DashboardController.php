@@ -70,11 +70,12 @@ class DashboardController extends Controller
     {
 
         $user = $request->user();
+        $categories = JobCategory::all();
         //old logic
         //  $user_joblisting = $user->user_joblistings()->latest()->limit(5)->get(); // pangitaon si user_companies nga method ni user_companies.
         // new logic, will not return job listing if company has soft deleted
         $user_joblisting = $user->user_joblistings()->whereHas('company')->latest()->get();
-        return  view('users.dashboard.joblistings', ['user_joblisting' => $user_joblisting]);
+        return  view('users.dashboard.joblistings', ['user_joblisting' => $user_joblisting,'categories'=>$categories]);
     }
 
     //show the job listing applicants
@@ -295,6 +296,31 @@ class DashboardController extends Controller
         $user->user_joblistings()->create($formFields);
         return redirect('/dashboard/job-listings')->with('success', 'Created job listing successfully.');
     }
+    //update a  job posting
+    public function update_jobposting(Request $request)
+    {
+        $user = $request->user();
+        $clickItem = $request->id;
+        $listing = JobListing::find($clickItem);
+        $formFields = $request->validate([
+            
+            'employment_type' => ['required'],
+            'min_monthly_salary' => ['required'],
+            'max_monthly_salary' => ['required'],
+            'job_title' => ['required'],
+             
+            'description' => ['required'],
+
+        ]);
+        if ($listing) {
+            $user->user_joblistings()->updateOrCreate(
+                ['id' => $clickItem], // Search 
+                $formFields // Values to update or create
+            );
+            return redirect('/dashboard/job-listings')->with('success', 'Job updated successfully.');
+        }
+    }
+
     //show the resume page
     public function showResume(Request $request)
     {

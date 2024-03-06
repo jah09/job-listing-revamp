@@ -73,17 +73,16 @@
                                     </form>
                                     <div>
                                         <div class="flex justify-start">
-                                      
-                                                <div class="space-x-2">
-                                                    <button onclick="openModal('{{ $item }}')">
-                                                        <a>
-                                                            {{-- <i class="fa-solid   fa-pencil-square-o text-lg text-blue-600"></i> --}}
-                                                            <i
-                                                                class="fa-solid fa-pen-to-square text-lg text-green-500"></i>
-                                                        </a>
-                                                    </button>
-                                                </div>
-                                           
+
+                                            <div class="space-x-2">
+                                                <button onclick="openModal('{{ $item }}')">
+                                                    <a>
+                                                        {{-- <i class="fa-solid   fa-pencil-square-o text-lg text-blue-600"></i> --}}
+                                                        <i class="fa-solid fa-pen-to-square text-lg text-green-500"></i>
+                                                    </a>
+                                                </button>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -105,10 +104,10 @@
         <div class="main-modal h-100 animated fadeIn faster fixed inset-0 z-50 flex hidden w-full items-center justify-center overflow-hidden"
             style="background: rgba(0,0,0,.7);">
             <div
-                class="modal-container z-50 mx-auto w-11/12 overflow-y-auto rounded border bg-white shadow-lg shadow-lg md:max-w-md p-4">
+                class="modal-container z-50 mx-auto w-11/12 overflow-y-auto rounded border bg-white p-4 shadow-lg shadow-lg md:max-w-md">
                 <div class="modal-content px-6 py-2 text-left">
                     <div class="flex items-center justify-between pb-3">
-                        <p class="text-2xl font-bold">Edit company:  <span id="companyName"></span> </p>
+                        <p class="text-2xl font-bold">Edit your company </p>
                         <div onclick="modalClose()" class="modal-close z-50 cursor-pointer">
                             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
                                 height="18" viewBox="0 0 18 18">
@@ -123,13 +122,12 @@
                         <form method="POST" action="/updatecompany" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" id="id" name="id">
-                          
+
                             {{-- company logo --}}
                             <div class="mb-4">
                                 <label for="logo_url" class="mb-2 block text-sm text-gray-600">Company Logo</label>
                                 <input type="file" id="logo_url" name="logo_url" value="{{ old('logo_url') }}"
-                                    class="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                                     >
+                                    class="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500">
                                 @error('logo_url')
                                     <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                                 @enderror
@@ -217,10 +215,10 @@
                                 @enderror
                             </div>
 
-                            <div class="p-4"> 
-                            <button type="submit"
-                                class="from-hipe-blue to-hipe-dark-blue mx-auto mb-2 block w-40 rounded-lg bg-gradient-to-r py-2 font-semibold text-black transition delay-150 ease-in-out hover:-translate-y-1 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">Update
-                                Company</button>
+                            <div class="p-4">
+                                <button type="submit"
+                                    class="from-hipe-blue to-hipe-dark-blue mx-auto mb-2 block w-40 rounded-lg bg-gradient-to-r py-2 font-semibold text-black transition delay-150 ease-in-out hover:-translate-y-1 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">Update
+                                    Company</button>
                             </div>
                     </div>
                     </form>
@@ -241,7 +239,7 @@
         const openModal = (company) => {
             const item = JSON.parse(company);
 
-            document.getElementById('companyName').textContent = item.name;
+          //  document.getElementById('companyName').textContent = item.name;
             document.getElementById('name').value = item.name;
             document.getElementById('address').value = item.address;
             document.getElementById('city').value = item.city;
@@ -251,7 +249,7 @@
             document.getElementById('email').value = item.email;
             document.getElementById('website').value = item.website;
             document.getElementById('id').value = item.id;
-            
+
             // var form = document.getElementById(`form_${companyID}`);
             //  form.submit();
             modal.classList.remove('hidden');

@@ -59,6 +59,8 @@ Route::post('/createcompany', [DashboardController::class, 'create_company']);
 Route::post('/updatecompany',[DashboardController::class, 'update_company']);
 //create job posting/inser to db
 Route::post('/createjoblisting', [DashboardController::class, 'create_jobposting']);
+//update a job posting
+Route::post('/update-job-listing',[DashboardController::class,'update_jobposting']);
 //create a resume then store to db
 Route::post('/store-resume', [DashboardController::class, 'storeResume'])->name('storeResume');
 //soft delete a company
