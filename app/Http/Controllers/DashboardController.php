@@ -157,8 +157,13 @@ class DashboardController extends Controller
         $user = $request->user(); //this will return authenticated user data
 
         $userDetails = $user->user_detail()->first();
+        if($userDetails){
+            return view('users.dashboard.profilePage', ['userDetails' => $userDetails]);
+        }else{
+            return view('users.dashboard.settings');
+        }
         //.dd($userDetails);
-        return view('users.dashboard.profilePage', ['userDetails' => $userDetails]);
+       
     }
 
     //show the company form
@@ -345,7 +350,8 @@ class DashboardController extends Controller
             'resume_url' => 'required|mimes:pdf,xlsx,xls,csv', //in order mo receive siya og stated URL
         ]);
 
-        $formFields['resume_url'] = $request->file('resume_url')->store('resumes', 'public'); //to store sa local nga 'storage' na folder
+      //  $formFields['resume_url'] = $request->file('resume_url')->store('resumes', 'public'); //to store sa local nga 'storage' na folder
+      $formFields['resume_url'] = $request->file('resume_url')->store('private/resume/');
         $user->user_resumes()->create($formFields);
         return redirect('/dashboard/my-resume')->with('success', 'Resume created successfully.');
     }
