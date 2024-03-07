@@ -24,8 +24,8 @@ class Company extends Model
     {
         // Check if logo_url is set
         if ($this->logo_url) {
-            //  return Storage::disk('s3')->url($this->logo_url);
-            return env('AWS_URL').$this->logo_url;
+             return Storage::disk('s3')->url($this->logo_url);
+           // return env('AWS_URL').$this->logo_url;
         }
         return null;
     
