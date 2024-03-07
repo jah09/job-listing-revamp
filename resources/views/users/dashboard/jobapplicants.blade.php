@@ -48,7 +48,7 @@
                                 <p class=" text-gray-700">{{ $item->user->email }}</p>
                             </td>
                             <td class="py-4">
-                                <a href="{{ asset('storage/' . $item->user_resume->resume_url) }}" target="_blank">
+                                <a href="{{   $item->user_resume->private_resume_url() }}" target="_blank">
 
 
                                     <p class=" text-gray-700 hover:font-medium">{{ $item->user_resume->name }}</p>
