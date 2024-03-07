@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address');
             $table->integer('tel')->nullable();
             //for referencing
-            $table->foreign('user_id')->references('id')->on('user_details')->onDelete('Cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('Cascade');
             $table->timestamps();
         });
     }

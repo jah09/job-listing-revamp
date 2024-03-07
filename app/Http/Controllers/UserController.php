@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Contact;
 use App\Models\JobListing;
 use App\Models\Newsletter;
+use App\Models\UserDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
@@ -129,33 +130,35 @@ class UserController extends Controller
     // for sendling password reset link
     public function forgot_password_send_email(Request $request)
     {
-    
-        //This line validates the incoming request data. It ensures that the request contains an email parameter, and that the value of the email parameter is a valid email address.
-       $request->validate(['email' => 'required|email']);
-        
 
-       //This line sends a password reset link to the provided email address. It uses Laravel's built-in Password class which provides methods for handling password resets. The sendResetLink method takes an array containing only the email address from the request.
-       $status = Password::sendResetLink( $request->only('email'));
-        
-       //checks the return status of the sendResetLink method. 
-       if ($status == Password::RESET_LINK_SENT){
-           return Redirect::back()->with(['success' => 'Password reset link has been sent to email.']);
-       }else {
-           return Redirect::back()->with(['error' => 'Failed to sent password reset link']);
-       }
+        //This line validates the incoming request data. It ensures that the request contains an email parameter, and that the value of the email parameter is a valid email address.
+        $request->validate(['email' => 'required|email']);
+
+
+        //This line sends a password reset link to the provided email address. It uses Laravel's built-in Password class which provides methods for handling password resets. The sendResetLink method takes an array containing only the email address from the request.
+        $status = Password::sendResetLink($request->only('email'));
+
+        //checks the return status of the sendResetLink method. 
+        if ($status == Password::RESET_LINK_SENT) {
+            return Redirect::back()->with(['success' => 'Password reset link has been sent to email.']);
+        } else {
+            return Redirect::back()->with(['error' => 'Failed to sent password reset link']);
+        }
     }
     //reset-password
-    public function reset_password(Request $request){
-        $token=$request->token;
-        $email=$request->email;
-        return view('auth.reset-password', ['token' => $token,'email'=>$email]);
+    public function reset_password(Request $request)
+    {
+        $token = $request->token;
+        $email = $request->email;
+        return view('auth.reset-password', ['token' => $token, 'email' => $email]);
     }
     //Handling the saving new password
-    public function save_reset_password(Request $request){
+    public function save_reset_password(Request $request)
+    {
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required','min:6'],
+            'password' => ['required', 'min:6'],
         ]);
         //This code is a closure function that takes a $user object as input. It's used within the Password::reset method call for updating the user's password and generating a new remember token.
         $status = Password::reset(
@@ -164,15 +167,15 @@ class UserController extends Controller
                 //This method allows you to fill the model with a given array of attributes, bypassing mass assignment protection. In this case, it's updating the user's password with the hashed value of the new password provided in the request. Hash::make($request->password) hashes the new password for security.
                 $user->forceFill([
                     'password' => Hash::make($request->password)
-                     
+
                 ])->setRememberToken(Str::random(60)); //This method generates a new remember token for the user. Remember tokens are used for authentication and are typically stored in a cookie. Str::random(60) generates a random string of 60 characters.
                 $user->save(); //saves the changes made by the user
                 event(new PasswordReset($user)); //This line triggers the PasswordReset event, which can be used for logging, notifications, or other actions related to password resets.
             }
         );
-        if ($status == Password::PASSWORD_RESET){
+        if ($status == Password::PASSWORD_RESET) {
             return Redirect::back()->with(['success' => 'Password has been sucessfully changed']);
-        }else {
+        } else {
             return Redirect::back()->with(['success' => 'Failed to change password']);
         }
     }
@@ -191,7 +194,7 @@ class UserController extends Controller
             'gender' => ['required', 'min:3'],
             'address' => ['required', 'min:3'],
             'tel' => ['required', 'min:3'],
-            'profile_logo' => ['required']
+            'profile_logo'
         ]);
         // $formFields['logo_url'] = $request->file('logo_url')->storePublicly('public/images/company');
         if ($request->hasFile('profile_logo')) {
@@ -199,11 +202,25 @@ class UserController extends Controller
             //  $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
             $formFields['profile_logo'] = $request->file('profile_logo')->storePublicly('public/images/profile');
         }
-        $user->user_detail()->updateOrCreate(
-            ['user_id' => $user->id], // Search criteria
-            $formFields // Values to update or create
-        );
-        return redirect(route('dashboard.settings'))->with('success', 'Profile updated successfully.');
+        // $user->user_detail()->updateOrCreate(
+        //     ['user_id' => $user->id], // Search criteria
+        //     $formFields // Values to update or create
+        // );
+        if ($user) {
+            // Retrieve the user details associated with the user
+            $userDetails = $user->user_detail()->exists();
+            if ($userDetails) {
+                // $user->user_detail()->update(
+                //     ['user_id' => $user->id], // Search criteria
+                //     $formFields // Values to update or create
+                // );
+                $user->user_detail()->update($formFields);
+                return redirect(route('dashboard.profile_page'))->with('success', 'Profile updated successfully.');
+            }else{
+                 $user->user_detail()->create($formFields);
+                 return redirect(route('dashboard.profile_page'))->with('success', 'Profile created successfully.');
+            }
+        }
     }
 
 
@@ -213,7 +230,7 @@ class UserController extends Controller
         //old logic 
         //  $user_joblisting = JobListing::all(); //fetch the job listing data from database then pass to landing page by jobListing variable
         // new logic, will not return job listing if company has soft deleted
-        $user_joblisting = JobListing::whereHas('company')->filter(request([ 'search']))->get();
+        $user_joblisting = JobListing::whereHas('company')->filter(request(['search']))->get();
 
         return view(
             'landing',
@@ -301,7 +318,7 @@ class UserController extends Controller
             // if true 
             return redirect('/dashboard/home')->with('success', 'You are already verified');
         } else {
-            return view('users.verification.verify-email');
+            return view('auth.verify-email');
         }
     }
 
@@ -313,7 +330,7 @@ class UserController extends Controller
             return redirect('/dashboard/home')->with('success', 'Users verified successfully');
         } else {
             $user->sendEmailVerificationNotification();
-            return view('users.verification.verify-email');
+            return view('auth.verify-email');
         }
     }
     //for processing email verification 
