@@ -114,7 +114,7 @@
                             </div>
                             <div class="w-1/5">
 
-                                <a href="{{ asset('storage/' . $item->resume_url) }}" target="_blank">
+                                <a href="{{   $item->private_resume_url() }}" target="_blank">
                                     <button
                                         class="mb-2 md:mb-0 bg-hipe-dark-blue px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-gray-800"
                                         type="button" aria-label="like">view</button>

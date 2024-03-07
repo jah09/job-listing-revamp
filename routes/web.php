@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,11 @@ Route::group(
 
 
 );
+// notification feature
+Route::post('/notifications/send', [NotificationController::class, 'sendNotification']);
+Route::get('/notifications/unread_count', [NotificationController::class, 'unreadNotificationCount']);
+Route::get('/notification-page', [DashboardController::class, 'showNotificationPage']);
+
  //older codes
     //dashboard routes but it ge tagsa2
 
