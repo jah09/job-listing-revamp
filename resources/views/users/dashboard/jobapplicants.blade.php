@@ -91,8 +91,8 @@
                     @endforeach
                 @else
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-24 text-center" colspan="6">
-                            <h1 class="text-hipe-blue font-semibold text-2xl">NO APPLICANTS</h1>
+                        <td class="px-6 py-24 text-center ml-10  " colspan="6">
+                            <h1 class="text-hipe-blue font-semibold text-2xl text-center">NO APPLICANTS</h1>
                         </td>
                     </tr>
 
