@@ -247,10 +247,10 @@ class DashboardController extends Controller
     }
 
     //show the create post form
-    public function showCreateJobListingForm()
+    public function showCreateJobListingForm(Request $request)
     {
-
-        $companies = Company::all(); //retrieve all company record
+        $users=$request->user();
+        $companies = $users->user_companies()->latest()->get(); //retrieve all company record
         $categories = JobCategory::all(); //retrieve all job category record
         //check if user already created an company, if dili 0 thn maka show ra sa job listing create form
         if ($companies->count() != 0) {
@@ -354,5 +354,15 @@ class DashboardController extends Controller
       $formFields['resume_url'] = $request->file('resume_url')->store('private/resume/');
         $user->user_resumes()->create($formFields);
         return redirect('/dashboard/my-resume')->with('success', 'Resume created successfully.');
+    }
+
+    //show notification page
+    public function showNotificationPage(Request $request){
+        $users= $request->user();
+        $notification=$users->notifications()->latest()->get();
+         $notifcount=$notification->where('read',false)->count();
+        
+        //$notif_count=$notification
+        return view('users.dashboard.notification',['notifcount'=>$notifcount,'notification'=>$notification]);
     }
 }

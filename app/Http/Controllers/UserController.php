@@ -11,6 +11,7 @@ use App\Models\JobListing;
 use App\Models\Newsletter;
 use App\Models\UserDetail;
 use Illuminate\Support\Str;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Illuminate\Validation\Rule;
@@ -202,18 +203,12 @@ class UserController extends Controller
             //  $formFields['profile_logo'] = $request->file('profile_logo')->store('profile_image', 'public');
             $formFields['profile_logo'] = $request->file('profile_logo')->storePublicly('public/images/profile');
         }
-        // $user->user_detail()->updateOrCreate(
-        //     ['user_id' => $user->id], // Search criteria
-        //     $formFields // Values to update or create
-        // );
+         
         if ($user) {
             // Retrieve the user details associated with the user
             $userDetails = $user->user_detail()->exists();
             if ($userDetails) {
-                // $user->user_detail()->update(
-                //     ['user_id' => $user->id], // Search criteria
-                //     $formFields // Values to update or create
-                // );
+               
                 $user->user_detail()->update($formFields);
                 return redirect(route('dashboard.profile_page'))->with('success', 'Profile updated successfully.');
             }else{
@@ -290,7 +285,14 @@ class UserController extends Controller
 
             //pass the params to notification
             $notification = new JobListingApplicationNotification($user->email, $job_application->job_listing);
+            
             $job_listing_owner->notify($notification);
+
+            // After sending notification, save it to the database
+Notification::create([
+    'user_id' => $job_listing_owner->id,
+    'message' => 'You have a new job application',
+]);
             return redirect('/dashboard/home')->with('success', 'Application form submitted');
         } else {
             return redirect('/dashboard/my-resume')->with('error', 'You already submitted an application form for this job listing');
