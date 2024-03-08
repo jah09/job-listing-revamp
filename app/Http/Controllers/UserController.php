@@ -291,7 +291,8 @@ class UserController extends Controller
             // After sending notification, save it to the database
 Notification::create([
     'user_id' => $job_listing_owner->id,
-    'message' => 'You have a new job application',
+    'message' => 'Hello, you have applicaton from ' . $job_application->first_name . ' in ' .$job_application->job_listing->job_title,
+    'application_id'=>$job_application->id
 ]);
             return redirect('/dashboard/home')->with('success', 'Application form submitted');
         } else {
