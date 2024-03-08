@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JobApplication extends Model
 {
@@ -24,4 +25,13 @@ class JobApplication extends Model
     // public function belongTo_JobApplication(){
     //     return $this->belongsTo(JobApplication::class);
     // }
+    public function notifications(){
+         return $this->hasMany(Notification::class, 'application_id');
+    }
+
+    public function scopeFilter($query, array $filters){
+        if($filters['application_id']??false){
+            $query->where('id',request('application_id'));
+        }
+    }   
 }

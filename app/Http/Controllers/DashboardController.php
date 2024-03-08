@@ -91,7 +91,7 @@ class DashboardController extends Controller
         $jobListings = $user->user_joblistings()->where('id', $clickItem)->get(); //find and get the job listing base on the click Item ID
 
         //This adds a WHERE condition to the query, specifying that only job applications with a job_listing_id equal to $clickItem will be retrieved.
-        $jobApplications = JobApplication::where('job_listing_id', $clickItem)->get();
+        $jobApplications = JobApplication::where('job_listing_id', $clickItem)->filter(request(['application_id']))->get();
 
         return  view('users.dashboard.jobapplicants', [
             'jobListings' => $jobListings,
@@ -361,7 +361,7 @@ class DashboardController extends Controller
         $users= $request->user();
         $notification=$users->notifications()->latest()->get();
          $notifcount=$notification->where('read',false)->count();
-        
+       //  dd($notification->job_application);
         //$notif_count=$notification
         return view('users.dashboard.notification',['notifcount'=>$notifcount,'notification'=>$notification]);
     }

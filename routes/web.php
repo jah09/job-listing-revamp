@@ -109,7 +109,8 @@ Route::group(
 Route::post('/notifications/send', [NotificationController::class, 'sendNotification']);
 Route::get('/notifications/unread_count', [NotificationController::class, 'unreadNotificationCount']);
 Route::get('/notification-page', [DashboardController::class, 'showNotificationPage']);
-
+//read notification
+Route::get('/read-notification/{notification_id}',[NotificationController::class,'readNotification']);
  //older codes
     //dashboard routes but it ge tagsa2
 

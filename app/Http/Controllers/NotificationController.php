@@ -29,4 +29,18 @@ class NotificationController extends Controller
         
         return response()->json(['count' => $count]);
     }
+
+
+    public function readNotification(Request $request){
+        $user=$request->user();
+        $notification=$user->notifications->find($request->notification_id);
+        if($notification->read==false){
+            $notification->read=true;
+            $notification->save();
+            return redirect('/dashboard/job-listings/'.$notification->job_application->job_listing->id.'/applicants?application_id='.$notification->job_application->id);
+        }else{
+            return redirect('/dashboard/job-listings/'.$notification->job_application->job_listing->id.'/applicants?application_id='.$notification->job_application->id);
+        }
+    }
+
 }
